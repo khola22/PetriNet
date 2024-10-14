@@ -1,7 +1,7 @@
 package org.petriNet;
 
 public class Arc {
-    protected int poid;  // weight
+    protected int poid;  
     protected int id;
 
     public Arc(int poid,int id) {
@@ -13,9 +13,7 @@ public class Arc {
         this.poid = nouveauPoid;
     }
 
-    // Validation method (abstract in derived classes)
     public boolean valider() {
-        // Implement validation logic if needed
         return true;
     }
 
@@ -28,4 +26,4 @@ public class Arc {
     }
 }
 
-}
+
