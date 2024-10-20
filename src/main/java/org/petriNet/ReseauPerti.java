@@ -49,8 +49,34 @@ public class ReseauPerti implements PetriNetService {
 	@Override
 	public void afficherEtat() {
 		// TODO Auto-generated method stub
-		
+		// afficher le nombre de jetons dans chaque place
+		for (Place place : places) {
+			System.out.println("Place " + place.getId() + " : " + place.getNbrJetons());
+		}
 	}
-	
-	
+
+	@Override
+	public void afficherReseauPetri() {
+		// TODO Auto-generated method stub
+
+		/**
+		 * afficher les places, les transitions et les arcs
+		 * comme un dessin du réseau de petri
+		 * les places comme des cercles
+		 * les transitions comme des rectangles
+		 * les arcs comme des flèches
+		 * les poinds des arcs à côté des flèches
+		 * les jetons des points dans les places
+		 * relier les arcs aux places et aux transitions par des flèches
+		 */
+
+		// afficher Petri Net
+		System.out.println("Petri Net : ");
+		// afficher les places, les arcs, le poid et les transitions
+		for (Arc arc : arcs) {
+			System.out.println("Arc : " + arc.getPlace().getId() + " -> " + arc.getTransition().getId() + " : " + arc.getPoids());
+		}
+
+
+
 }

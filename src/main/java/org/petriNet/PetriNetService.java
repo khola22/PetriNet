@@ -12,4 +12,11 @@ public interface PetriNetService {
 	
 	public void afficherEtat();
 
+	/**
+	 * afficher le réseau de petri
+	 * On a trouver que cette fonction et utile pour visualiser
+	 * le réseau de petri
+	 */
+	public void afficherReseau();
+
 }

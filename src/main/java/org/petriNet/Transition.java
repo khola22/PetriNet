@@ -3,10 +3,26 @@ package org.petriNet;
 public class Transition {
     private int id;
     private List<Arc_SORTANT> arcs_SORTANTS;
+    private List<Arc_ENTRANT> arcs_ENTRANTS;
 
-    public Transition(int id) {
+    public Transition(int id, List<Arc_SORTANT> arcs_SORTANTS, List<Arc_ENTRANT> arcs_ENTRANTS) {
         this.id = id;
         this.arcs_SORTANTS = new ArrayList<Arc_SORTANT>();
+        this.arcs_ENTRANTS = new ArrayList<Arc_ENTRANT>();
+    }
+
+    /**
+     * On ajoute deux méthodes pour pouvoir ajouter les arcs entrants et
+     * sortants à la transition
+     * c'est une différence par rapport au diagramme de classe soumis
+     */
+
+    public void ajouterArc_SORTANT(Arc_SORTANT arc_SORTANT) {
+        this.arcs_SORTANTS.add(arc_SORTANT);
+    }
+
+    public void ajouterArc_ENTRANT(Arc_ENTRANT arc_ENTRANT) {
+        this.arcs_ENTRANTS.add(arc_ENTRANT);
     }
 
     public boolean est_tirable() {
