@@ -3,6 +3,7 @@ package org.petriNet;
 public class Place {
     private int id;
     private int nombre_jeton;
+
     public Place(int id, int nombre_jeton) {
         this.id = id;
         this.nombre_jeton = nombre_jeton;
