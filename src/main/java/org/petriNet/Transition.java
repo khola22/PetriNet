@@ -1,9 +1,14 @@
 package org.petriNet;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class Transition {
     private int id;
     private List<Arc_SORTANT> arcs_SORTANTS;
     private List<Arc_ENTRANT> arcs_ENTRANTS;
+    private List<Arc_ENTRANT> arcs_ENTRANTS_TIRABLE = new ArrayList<Arc_ENTRANT>();
 
     public Transition(int id, List<Arc_SORTANT> arcs_SORTANTS, List<Arc_ENTRANT> arcs_ENTRANTS) {
         this.id = id;
@@ -17,6 +22,22 @@ public class Transition {
      * c'est une différence par rapport au diagramme de classe soumis
      */
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Arc_SORTANT> getArcs_SORTANTS() {
+        return arcs_SORTANTS;
+    }
+
+    public void setArcs_SORTANTS(List<Arc_SORTANT> arcs_SORTANTS) {
+        this.arcs_SORTANTS = arcs_SORTANTS;
+    }
+
     public void ajouterArc_SORTANT(Arc_SORTANT arc_SORTANT) {
         this.arcs_SORTANTS.add(arc_SORTANT);
     }
@@ -25,41 +46,52 @@ public class Transition {
         this.arcs_ENTRANTS.add(arc_ENTRANT);
     }
 
-    public boolean est_tirable() {
-        // verifier si la transition est tirable à travers l'ARC_SORTANT
-        int n_jetons_necessaires;
-        int n_jetons_existant;
 
-        // pour chaque arc sortant de la transition
-        // n_jetons_necessaires += arc_SORTANT.getPoids();
-        for (Arc_SORTANT arc_SORTANT : arcs_SORTANTS) {
-            n_jetons_necessaires += arc_SORTANT.getPoids();
-        }
+    public void est_tirable() {
 
-        // pour chaque arc entrant de la transition
-        // n_jetons_existant += arc_ENTRANT.getPoids();
+        // creer liste vide d'arcs
+        this.arcs_ENTRANTS_TIRABLE = new ArrayList<Arc_ENTRANT>();
+
         for (Arc_ENTRANT arc_ENTRANT : arcs_ENTRANTS) {
-            n_jetons_existant += arc_ENTRANT.getPoids();
+            if (arc_ENTRANT.verifier_tirable()) {
+                arcs_ENTRANTS_TIRABLE.add(arc_ENTRANT);
+            }
         }
 
-        // si n_jetons_necessaires <= n_jetons_existant
-        // return true;
-
-        if (n_jetons_necessaires <= n_jetons_existant) {
-            return true;
+        if(arcs_ENTRANTS_TIRABLE.isEmpty()){
+            System.out.println("La transition n'est pas tirable");
         }
-
+        else {
+            System.out.println("La transition est tirable");
+        }
     }
-    public void tirer(){
-        // fait appel à valider() dans les classes Arc_SORTANT et
-        // Arc_ENTRANT pour modifier les jetons
 
-        for (Arc_ENTRANT arc_ENTRANT : arcs_ENTRANTS) {
-            arc_ENTRANT.valider();
+    public void tirer(){
+
+        est_tirable();
+
+        // print the list of arcs entrants tirables
+        System.out.println("Arcs entrants tirable: " + this.arcs_ENTRANTS_TIRABLE
+                    + "Saisir l'arc entrant à tirer: ");
+
+        // copilot get input from user of the id of the arc entrant to tirer (java.util.Scanner)
+        Scanner scanner = new Scanner(System.in);
+        int id = scanner.nextInt();
+
+        // find the Arc_ENTRANT by id
+        Arc_ENTRANT arc_ENTRANT_toTirer = null;
+        for (Arc_ENTRANT arc_ENTRANT : this.arcs_ENTRANTS_TIRABLE) {
+            if (arc_ENTRANT.getId() == id) {
+                arc_ENTRANT_toTirer = arc_ENTRANT;
+            }
         }
+
+        // valider l'arc entrant
+        arc_ENTRANT_toTirer.valider();
 
         for (Arc_SORTANT arc_SORTANT : arcs_SORTANTS) {
             arc_SORTANT.valider();
         }
+
     }
 }

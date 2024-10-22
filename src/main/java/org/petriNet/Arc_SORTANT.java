@@ -1,8 +1,14 @@
 package org.petriNet;
 
 public abstract class Arc_SORTANT extends Arc {
-    public Arc_SORTANT(Place place, Transition transition, int poids) {
-        super(place, transition, poids);
+
+    private Place place;
+    private Transition transition;
+    private int poids;
+    private int id;
+
+    public Arc_SORTANT(Place place, Transition transition, int poids, int id) {
+        super(place, transition, poids, id);
     }
 
     @Override
@@ -10,10 +16,12 @@ public abstract class Arc_SORTANT extends Arc {
         this.poids = poids;
     }
 
+
+
     @Override
     public void valider() {
         // On ajoute le nombre de jetons du poids de l'arc
-        this.place.ajouterJetons(this.poids);
+        this.place.ajouter_jeton(this.poids);
     }
 
     /**
@@ -25,7 +33,7 @@ public abstract class Arc_SORTANT extends Arc {
 
     public void ajouterJetons() {
         // On ajoute le nombre de jetons du poids de l'arc
-        this.place.ajouterJetons(this.poids);
+        this.place.ajouter_jeton(this.poids);
     }
 
 

@@ -9,13 +9,13 @@ public class Place {
         this.nombre_jeton = nombre_jeton;
     }
 
-    public void ajouter_jeton() {
-        this.nombre_jeton++;
+    public void ajouter_jeton(int jetons) {
+        this.nombre_jeton += jetons;
     }
 
-    public void enlever_jeton() {
+    public void enlever_jeton(int jetons) {
         if (this.nombre_jeton > 0) {
-            this.nombre_jeton--;
+            this.nombre_jeton -= jetons;
         } else {
             System.out.println("No more tokens to remove.");
         }

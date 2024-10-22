@@ -1,29 +1,36 @@
 package org.petriNet;
 
-public class Arc {
-    protected int poid;  
-    protected int id;
+public abstract class Arc {
+    private int id;
+    private Place place;
+    private Transition transition;
+    private int poids;
 
-    public Arc(int poid,int id) {
-        this.poid = poid;
+    public Arc(Place place, Transition transition, int poids, int id) {
+        this.place = place;
+        this.transition = transition;
+        this.poids = poids;
         this.id = id;
     }
 
-    public void modifier_poid(int nouveauPoid) {
-        this.poid = nouveauPoid;
-    }
 
-    public boolean valider() {
-        return true;
-    }
+    public abstract void modifierPoids(int poids);
 
-    public int getPoid() {
-        return poid;
-    }
+    public abstract void valider();
 
-    public void setPoid(int poid) {
-        this.poid = poid;
-    }
+    public abstract int getPoids() ;
+
+    public abstract int getId();
+
+    public abstract void setId(int id);
+
+    public abstract void setPoid(int poids);
+
+    public abstract Place getPlace();
+
+    public abstract void setPlace(Place place);
+
+    public abstract Transition getTransition();
 }
 
 
