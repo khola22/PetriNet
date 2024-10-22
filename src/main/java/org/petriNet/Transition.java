@@ -70,19 +70,31 @@ public class Transition {
 
         est_tirable();
 
+        List<String> arcs_ENTRANTS_TIRABLE_String = Arcs_ENTRANTS_TIRABLE_toString();
+
         // print the list of arcs entrants tirables
-        System.out.println("Arcs entrants tirable: " + this.arcs_ENTRANTS_TIRABLE
-                    + "Saisir l'arc entrant à tirer: ");
-
-        // copilot get input from user of the id of the arc entrant to tirer (java.util.Scanner)
+        System.out.println("Arcs entrants tirable: " + arcs_ENTRANTS_TIRABLE_String
+                + "Saisir l'arc entrant à tirer: ");
         Scanner scanner = new Scanner(System.in);
-        int id = scanner.nextInt();
 
-        // find the Arc_ENTRANT by id
-        Arc_ENTRANT arc_ENTRANT_toTirer = null;
-        for (Arc_ENTRANT arc_ENTRANT : this.arcs_ENTRANTS_TIRABLE) {
-            if (arc_ENTRANT.getId() == id) {
-                arc_ENTRANT_toTirer = arc_ENTRANT;
+
+        int id;
+        Arc_ENTRANT arc_ENTRANT_toTirer;
+
+        // Get the input from user of the id of the arc entrant to tirer (java.util.Scanner)
+        while (true) {
+            System.out.print("Enter the id: ");
+            String input = scanner.next();
+            try {
+                id = Integer.parseInt(input);
+                if (arcs_ENTRANTS_TIRABLE_String.contains(String.valueOf(id))) {
+                    arc_ENTRANT_toTirer = arcs_ENTRANTS_TIRABLE.get(arcs_ENTRANTS_TIRABLE_String.indexOf(String.valueOf(id)));
+                    break;
+                } else {
+                    System.out.println("Invalid id. Please enter a valid id.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid id. Please enter a valid integer.");
             }
         }
 
@@ -93,5 +105,16 @@ public class Transition {
             arc_SORTANT.valider();
         }
 
+        System.out.println("Transition tirée avec succès");
+
+    }
+
+    // Add a method to get the list of arcs entrants tirable en String
+        public List<String> Arcs_ENTRANTS_TIRABLE_toString() {
+        List<String> arcs_ENTRANTS_TIRABLE_String = new ArrayList<String>();
+        for (Arc_ENTRANT arc_ENTRANT : arcs_ENTRANTS_TIRABLE) {
+            arcs_ENTRANTS_TIRABLE_String.add(String.valueOf(arc_ENTRANT.getId()));
+        }
+        return arcs_ENTRANTS_TIRABLE_String;
     }
 }

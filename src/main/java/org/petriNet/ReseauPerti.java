@@ -141,12 +141,12 @@ public class ReseauPerti implements PetriNetService {
 		 * relier les arcs aux places et aux transitions par des flèches
 		 */
 
-		// afficher Petri Net
-		System.out.println("Petri Net : ");
-		// afficher les places, les arcs, le poid et les transitions
-		for (Arc arc : arcs) {
-			System.out.println("Arc : " + arc.getPlace().getId() + " -> " + arc.getTransition().getId() + " : " + arc.getPoids());
-		}
+//		// afficher Petri Net
+//		System.out.println("Petri Net : ");
+//		// afficher les places, les arcs, le poids et les transitions
+//		for (Arc arc : arcs) {
+//			System.out.println("Arc : " + arc.getPlace().getId() + " -> " + arc.getTransition().getId() + " : " + arc.getPoids());
+//		}
 
 
 	}
