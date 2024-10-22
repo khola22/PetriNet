@@ -1,13 +1,21 @@
 package org.petriNet;
 
-public class Arc_ENTRANT extends Arc {
+public abstract class Arc_ENTRANT extends Arc {
+
+    /**
+     * Les Arc_ENTRANT sont entrants à une transition et sortants d'une place
+     * Ils permettent de retirer des jetons d'une place
+     * Ils sont donc la classe abstraite mère des Arc_sortant_simple, Arc_videur et Arc_zero
+     * C'est une différence par rapport au diagramme de classe soumis
+     */
 
     private Place place;
     private Transition transition;
     private int poids;
+    private int id;
 
-    public Arc_ENTRANT(Place place, Transition transition, int poids) {
-        super(place, transition, poids);
+    public Arc_ENTRANT(Place place, Transition transition, int poids, int id) {
+        super(place, transition, poids, id);
     }
 
     @Override
@@ -45,27 +53,37 @@ public class Arc_ENTRANT extends Arc {
 
     @Override
     public int getPoids() {
-        return 0;
+        return this.poids;
+    }
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
     public void setPoid(int poids) {
-
+        this.poids = poids;
     }
 
     @Override
     public Place getPlace() {
-        return null;
+        return this.place;
     }
 
     @Override
     public void setPlace(Place place) {
-
+        this.place = place;
     }
 
     @Override
     public Transition getTransition() {
-        return null;
+        return this.transition;
     }
 
 }

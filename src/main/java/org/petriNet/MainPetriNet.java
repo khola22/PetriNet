@@ -1,5 +1,7 @@
 package org.petriNet;
 
+import java.util.ArrayList;
+
 public class MainPetriNet {
 
     public static void main(String[] args) {
@@ -12,12 +14,12 @@ public class MainPetriNet {
         Place p3 = new Place(3,3);
 
         // Create transitions with empty Arcs_ENTRANT and Arcs_SORTANT
-        Transition t1 = new Transition(1, new ArrayList<Arc_ENTRANT>(), new ArrayList<Arc_SORTANT>());
-        Transition t2 = new Transition(2, new ArrayList<Arc_ENTRANT>(), new ArrayList<Arc_SORTANT>());
+        Transition t1 = new Transition(1, new ArrayList<Arc_SORTANT>(), new ArrayList<Arc_ENTRANT>());
+        Transition t2 = new Transition(2, new ArrayList<Arc_SORTANT>(), new ArrayList<Arc_ENTRANT>());
 
         // Create arcs
-        Arc_ENTRANT a1 = new Arc_ENTRANT(p1, t1, 1);
-        Arc_SORTANT a2 = new Arc_SORTANT(p2, t1, 1);
+        Arc_ENTRANT a1 = new Arc_entrant_simple(p1, t1, 1, 1);
+        Arc_SORTANT a2 = new Arc_SORTANT(p2, t1, 1, 2);
         Arc_ENTRANT a3 = new Arc_ENTRANT(p2, t2, 1);
         Arc_SORTANT a4 = new Arc_SORTANT(p3, t2, 1);
 

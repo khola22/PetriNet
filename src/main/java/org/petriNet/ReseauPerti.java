@@ -1,8 +1,6 @@
 package org.petriNet;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ReseauPerti implements PetriNetService {
 
@@ -10,7 +8,8 @@ public class ReseauPerti implements PetriNetService {
 
 	private List<Place> places;
 	private List<Transition> transitions;
-	private List<Arc> arcs;
+	// create a LinkedHashSet to store the arcs in order to have unique ids
+	private LinkedHashSet<Arc> arcs;
 	private String etat_reseau = "Pas de transition tirée";
 
 	// Create a constructor
@@ -18,7 +17,7 @@ public class ReseauPerti implements PetriNetService {
 		// initialiser les listes vide
 		this.places = new ArrayList<>();
 		this.transitions = new ArrayList<>();
-		this.arcs = new ArrayList<>();
+		this.arcs = new LinkedHashSet<>();
 	}
 
 	// Create getters and setters
@@ -38,11 +37,11 @@ public class ReseauPerti implements PetriNetService {
 		this.transitions = transitions;
 	}
 
-	public  List<Arc> getArcs() {
+	public  LinkedHashSet<Arc> getArcs() {
 		return this.arcs;
 	}
 
-	public void setArcs(List<Arc> arcs) {
+	public void setArcs(LinkedHashSet arcs) {
 		this.arcs = arcs;
 	}
 
