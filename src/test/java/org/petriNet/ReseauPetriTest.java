@@ -8,23 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ReseauPetriTest {
 
-    /**
-     * Les fonctions à tester suivantes n’aﬃchent rien. Elles créent des objets et les retournent à la
-     * fonction de test. C’est la fonction de test qui aﬃche afin que les testeurs puissent observer les
-     * résultats
-     */
-
     private ReseauPetri reseauPetri;
     private List<Place> places;
     private List<Transition> transitions;
     private LinkedList<Arc> arcs;
-
-    /**
-     * Créer un reseauPetri vide sans entrée. Résultat attendu : un RdP est créé vide
-     * Créer une transition. Résultat attendu : une transition est créée (sans lien)
-     * Créer une place avec nombres de jetons. Les cas : jetons ≥0, jetons < 0.
-     * Résultat attendu : une place est créée (sans lien), aucune place n’est créée ; Erreur
-     */
 
     @BeforeEach
     public void setUp() {
@@ -432,6 +419,84 @@ public class ReseauPetriTest {
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
 
+    }
+
+    // Tests de supression
+    @Test
+    public void testSupprimerTransition() {
+        ReseauPetri Supp = new ReseauPetri();
+
+        Transition T1 = new Transition("T1", Supp.generateId(2));
+        Supp.ajouterTransition(T1);
+        Supp.supprimerTransition(T1);
+        Supp.afficherReseau();
+    }
+
+    @Test
+    public void testDestruction_Place(){
+        ReseauPetri Destruction = new ReseauPetri();
+
+        // créer un réseau de petri similaire à Active dans testActiverPetri_3
+        Place P1 = new Place(2, Destruction.generateId(1));
+        Destruction.ajouterPlace(P1);
+
+        Transition T1 = new Transition("T1", Destruction.generateId(2));
+
+        // Creer l'arc entrant simple à T1 de P1
+        Arc_ENTRANT arc = new Arc_entrant_simple(T1, P1, 1, Destruction.generateId(0));
+        Destruction.ajouterArc(arc);
+
+        T1.ajouterArc_ENTRANT(arc);
+        Destruction.ajouterTransition(T1);
+
+        // Supprimer la place P1
+        Destruction.supprimerPlace(P1);
+        Destruction.afficherReseau();
+
+    }
+
+    @Test
+    public void testDestruction_Transition() {
+        ReseauPetri Destruction = new ReseauPetri();
+
+        // créer un réseau de petri similaire à Active dans testActiverPetri_3
+        Place P1 = new Place(2, Destruction.generateId(1));
+        Destruction.ajouterPlace(P1);
+
+        Transition T1 = new Transition("T1", Destruction.generateId(2));
+
+        // Creer l'arc entrant simple à T1 de P1
+        Arc_ENTRANT arc = new Arc_entrant_simple(T1, P1, 1, Destruction.generateId(0));
+        Destruction.ajouterArc(arc);
+
+        T1.ajouterArc_ENTRANT(arc);
+        Destruction.ajouterTransition(T1);
+
+        // Supprimer la transition T1
+        Destruction.supprimerTransition(T1);
+        Destruction.afficherReseau();
+    }
+
+    @Test
+    public void testDestruction_Arc() {
+        ReseauPetri Destruction = new ReseauPetri();
+
+        // créer un réseau de petri similaire à Active dans testActiverPetri_3
+        Place P1 = new Place(2, Destruction.generateId(1));
+        Destruction.ajouterPlace(P1);
+
+        Transition T1 = new Transition("T1", Destruction.generateId(2));
+
+        // Creer l'arc entrant simple à T1 de P1
+        Arc_ENTRANT arc = new Arc_entrant_simple(T1, P1, 1, Destruction.generateId(0));
+        Destruction.ajouterArc(arc);
+
+        T1.ajouterArc_ENTRANT(arc);
+        Destruction.ajouterTransition(T1);
+
+        // Supprimer l'arc
+        Destruction.supprimerArc(arc);
+        Destruction.afficherReseau();
     }
 
 }

@@ -102,6 +102,36 @@ public class ReseauPetri implements PetriNetService {
 		this.arcs.add(arc);
 	}
 
+	/**
+	 * Supprimer une place entraîne la suppression de tous les arcs qui y sont liés.
+	 * Supprimer une transition entraîne la suppression de tous les arcs qui y sont liés.
+	 */
+
+	@Override
+	public void supprimerPlace(Place place) {
+		this.places.remove(place);
+		// remove all arcs linked to the place
+        this.arcs.removeIf(arc -> arc.getPlace().getId() == place.getId());
+	}
+
+	@Override
+	public void supprimerTransition(Transition transition) {
+		this.transitions.remove(transition);
+		// remove all arcs linked to the transition
+		this.arcs.removeIf(arc -> arc.getTransition().getId() == transition.getId());
+	}
+
+	@Override
+	public void supprimerArc(Arc arc) {
+		this.arcs.remove(arc);
+		// remove it from the list of arcs of the transition
+		if (arc instanceof Arc_ENTRANT) {
+			arc.getTransition().getArcs_ENTRANTS().remove(arc);
+		} else if (arc instanceof Arc_SORTANT) {
+			arc.getTransition().getArcs_SORTANTS().remove(arc);
+		}
+	}
+
 	@Override
 	public void tirer_transition(String id) {
 
@@ -128,6 +158,7 @@ public class ReseauPetri implements PetriNetService {
 		this.etat_reseau = "Pas de transition tirée";
 
 	}
+
 
 	@Override
 	public void afficherEtat() {

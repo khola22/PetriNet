@@ -7,6 +7,12 @@ public interface PetriNetService {
 	public void ajouterTransition(Transition transition);
 	
 	public void ajouterArc(Arc arc);
+
+	public void supprimerPlace(Place place);
+
+	public void supprimerTransition(Transition transition);
+
+	public void supprimerArc(Arc arc);
 	
 	public void afficherEtat();
 
@@ -18,4 +24,5 @@ public interface PetriNetService {
 	public void afficherReseau();
 
 	public void tirer_transition(String id);
+
 }

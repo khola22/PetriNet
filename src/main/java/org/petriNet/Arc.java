@@ -44,6 +44,10 @@ public abstract class Arc {
     public Transition getTransition(){
         return this.transition;
     };
+
+    public void supprimerPlace(Place place) {
+        this.place = null;
+    }
 }
 
 
