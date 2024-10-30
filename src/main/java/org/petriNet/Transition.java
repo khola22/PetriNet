@@ -92,11 +92,11 @@ public class Transition {
         boolean tirable = est_tirable();
 
         if (tirable) {
-            for (Arc_ENTRANT arc_ENTRANT : arcs_ENTRANTS) {
+            for (Arc_ENTRANT arc_ENTRANT : this.getArcs_ENTRANTS()) {
                 arc_ENTRANT.valider();
             }
 
-            for (Arc_SORTANT arc_SORTANT : arcs_SORTANTS) {
+            for (Arc_SORTANT arc_SORTANT : this.getArcs_SORTANTS()) {
                 arc_SORTANT.valider();
             }
             System.out.println("Transition tirée avec succès");

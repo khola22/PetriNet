@@ -180,22 +180,23 @@ public class ReseauPetri implements PetriNetService {
 		System.out.println("Liste des places :");
 			// On parcourt la liste des arcs pour afficher les places
 			// une liste pur les arcs entrants et une liste pour les arcs sortants
+		for (Place place : this.places) {
 			List<Arc> arcs_ENTRANTS = new ArrayList<>();
 			List<Arc> arcs_SORTANTS = new ArrayList<>();
-		for (Place place : this.places) {
 			for (Arc arc : this.arcs) {
 				// we verify getting arc.getPlace() == place
 				if (arc.getPlace().getId() == place.getId()) {
 					// we verify if it's an arc entrant
 					if (arc instanceof Arc_ENTRANT) {
 						arcs_ENTRANTS.add(arc);
-					} else {
+					} else if (arc instanceof Arc_SORTANT) {
 						arcs_SORTANTS.add(arc);
 					}
 				}
 			}
+			// entrants / sortants à la place
 			System.out.println(place.getId() + " : place avec " + place.get_nombre_jetons() + " jetons, "
-					+ arcs_SORTANTS.size() + " arc simple sortant, " + arcs_ENTRANTS.size() + " arc simple entrant");
+					+ arcs_ENTRANTS.size() + " arc simple sortant, " + arcs_SORTANTS.size() + " arc simple entrant");
 		}
 
 		System.out.println("Liste des transitions :");

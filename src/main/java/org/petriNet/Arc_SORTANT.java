@@ -15,7 +15,7 @@ public class Arc_SORTANT extends Arc {
     @Override
     public void valider() {
         // On ajoute le nombre de jetons du poids de l'arc
-        this.place.ajouter_jeton(this.poids);
+        this.getPlace().ajouter_jeton(this.getPoids());
     }
 
 }

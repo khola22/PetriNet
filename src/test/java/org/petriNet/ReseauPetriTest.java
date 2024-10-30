@@ -265,6 +265,29 @@ public class ReseauPetriTest {
 
         Transition T1 = new Transition("T1", Active.generateId(2));
 
+        // Active has one Place with 1 jeton
+        Place P1 = new Place(1, Active.generateId(1));
+        Active.ajouterPlace(P1);
+
+        // Creer l'arc sortant de T1 vers P1
+        Arc_SORTANT arc = new Arc_SORTANT(T1, P1, 1, Active.generateId(0));
+        Active.ajouterArc(arc);
+
+        T1.ajouterArc_SORTANT(arc);
+        Active.ajouterTransition(T1);
+
+        // Tirer T1
+        Active.tirer_transition(String.valueOf(T1.getId()));
+        Active.afficherReseau();
+
+    }
+
+    @Test
+    public void testActiverPetri_6() {
+        ReseauPetri Active = new ReseauPetri();
+
+        Transition T1 = new Transition("T1", Active.generateId(2));
+
         // Active has two Places with 0 and 2 jetons
         Place P1 = new Place(0, Active.generateId(1));
         Place P2 = new Place(2, Active.generateId(1));
@@ -284,6 +307,131 @@ public class ReseauPetriTest {
         // Tirer T1
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
+    }
+
+    @Test
+    public void testActiverPetri_7() {
+        ReseauPetri Active = new ReseauPetri();
+
+        Transition T1 = new Transition("T1", Active.generateId(2));
+
+        // Active has two Places with 5 and 0 jetons
+        Place P1 = new Place(5, Active.generateId(1));
+        Place P2 = new Place(0, Active.generateId(1));
+        Active.ajouterPlace(P1);
+        Active.ajouterPlace(P2);
+
+        // Creer l'arc entrant simple à T1 de P1
+        Arc_ENTRANT arc = new Arc_entrant_simple(T1, P1, 3, Active.generateId(0));
+        Active.ajouterArc(arc);
+        Arc_SORTANT arc_1 = new Arc_SORTANT(T1, P2, 1, Active.generateId(0));
+        Active.ajouterArc(arc_1);
+
+        T1.ajouterArc_ENTRANT(arc);
+        T1.ajouterArc_SORTANT(arc_1);
+        Active.ajouterTransition(T1);
+
+        // Tirer T1
+        Active.tirer_transition(String.valueOf(T1.getId()));
+        Active.afficherReseau();
+    }
+
+    @Test
+    public void testActiverPetri_8() {
+        ReseauPetri Active = new ReseauPetri();
+
+        Transition T1 = new Transition("T1", Active.generateId(2));
+
+        // Active has two Places with 2 and 1 jetons
+        Place P1 = new Place(2, Active.generateId(1));
+        Place P2 = new Place(1, Active.generateId(1));
+        Active.ajouterPlace(P1);
+        Active.ajouterPlace(P2);
+
+        // Creer l'arc entrant simple à T1 de P1 et de P2
+        Arc_ENTRANT arc = new Arc_entrant_simple(T1, P1, 1, Active.generateId(0));
+        Active.ajouterArc(arc);
+        Arc_ENTRANT arc_1 = new Arc_entrant_simple(T1, P2, 1, Active.generateId(0));
+        Active.ajouterArc(arc_1);
+
+        T1.ajouterArc_ENTRANT(arc);
+        T1.ajouterArc_ENTRANT(arc_1);
+
+        Active.ajouterTransition(T1);
+
+        // Tirer T1
+        Active.tirer_transition(String.valueOf(T1.getId()));
+        Active.afficherReseau();
+    }
+
+    @Test
+    public void testActiverPetri_9() {
+        ReseauPetri Active = new ReseauPetri();
+
+        Transition T1 = new Transition("T1", Active.generateId(2));
+
+        // Active has two Places with 0 and 1 jetons
+        Place P1 = new Place(0, Active.generateId(1));
+        Place P2 = new Place(1, Active.generateId(1));
+        Active.ajouterPlace(P1);
+        Active.ajouterPlace(P2);
+
+        // Creer l'arc sortant de T1 vers P1 et de P2
+        Arc_SORTANT arc = new Arc_SORTANT(T1, P1, 1, Active.generateId(0));
+        Active.ajouterArc(arc);
+        Arc_SORTANT arc_1 = new Arc_SORTANT(T1, P2, 1, Active.generateId(0));
+        Active.ajouterArc(arc_1);
+
+        T1.ajouterArc_SORTANT(arc);
+        T1.ajouterArc_SORTANT(arc_1);
+
+        Active.ajouterTransition(T1);
+
+        // Tirer T1
+        Active.tirer_transition(String.valueOf(T1.getId()));
+        Active.afficherReseau();
+
+    }
+
+    @Test
+    public void testActiverPetri_10() {
+        ReseauPetri Active = new ReseauPetri();
+
+        Transition T1 = new Transition("T1", Active.generateId(2));
+
+        // Active has 4 Places with 1 and 1 jetons and 0 and 0 jetons
+        Place P1 = new Place(1, Active.generateId(1));
+        Place P2 = new Place(1, Active.generateId(1));
+        Place P3 = new Place(0, Active.generateId(1));
+        Place P4 = new Place(0, Active.generateId(1));
+        Active.ajouterPlace(P1);
+        Active.ajouterPlace(P2);
+        Active.ajouterPlace(P3);
+        Active.ajouterPlace(P4);
+
+        // Creer l'arc entrant simple à T1 de P1 et de P2
+        Arc_ENTRANT arc = new Arc_entrant_simple(T1, P1, 1, Active.generateId(0));
+        Active.ajouterArc(arc);
+        Arc_ENTRANT arc_1 = new Arc_entrant_simple(T1, P2, 1, Active.generateId(0));
+        Active.ajouterArc(arc_1);
+
+        // Creer l'arc sortant de T1 vers P3 et de P4
+        Arc_SORTANT arc_2 = new Arc_SORTANT(T1, P3, 1, Active.generateId(0));
+        Active.ajouterArc(arc_2);
+        Arc_SORTANT arc_3 = new Arc_SORTANT(T1, P4, 1, Active.generateId(0));
+        Active.ajouterArc(arc_3);
+
+        T1.ajouterArc_ENTRANT(arc);
+        T1.ajouterArc_ENTRANT(arc_1);
+        T1.ajouterArc_SORTANT(arc_2);
+        T1.ajouterArc_SORTANT(arc_3);
+
+        Active.ajouterTransition(T1);
+
+        // Tirer T1
+        Active.tirer_transition(String.valueOf(T1.getId()));
+        Active.afficherReseau();
+
     }
 
 }
