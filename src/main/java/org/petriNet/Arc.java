@@ -1,36 +1,49 @@
 package org.petriNet;
 
 public abstract class Arc {
+
     private int id;
     private Place place;
     private Transition transition;
     private int poids;
 
-    public Arc(Place place, Transition transition, int poids, int id) {
+    public Arc(Transition transition, Place place,  int poids, int id) {
         this.place = place;
         this.transition = transition;
-        this.poids = poids;
-        this.id = id;
+        // verify that the weight is not negative
+        if (poids >= 0) {
+            this.poids = poids;
+        } else {
+            System.out.println("The weight cannot be negative.");
+        }
+        this.id = id; // Assign a unique ID with the generateId method in the ReseauPetri class
     }
-
-
-    public abstract void modifierPoids(int poids);
 
     public abstract void valider();
 
-    public abstract int getPoids() ;
+    public int getPoids(){
+        return this.poids;
+    } ;
 
-    public abstract int getId();
+    public int getId(){
+        return this.id;
+    };
 
-    public abstract void setId(int id);
+    public void setPoids(int poids){
+        this.poids = poids;
+    };
 
-    public abstract void setPoid(int poids);
+    public Place getPlace(){
+        return this.place;
+    };
 
-    public abstract Place getPlace();
+    public void setPlace(Place place){
+        this.place = place;
+    };
 
-    public abstract void setPlace(Place place);
-
-    public abstract Transition getTransition();
+    public Transition getTransition(){
+        return this.transition;
+    };
 }
 
 

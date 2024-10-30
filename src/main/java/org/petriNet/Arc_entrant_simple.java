@@ -8,8 +8,8 @@ public class Arc_entrant_simple extends Arc_ENTRANT {
         int id;
 
 
-    public Arc_entrant_simple(Place place, Transition transition, int poids, int id) {
-        super(place, transition, poids, id);
+    public Arc_entrant_simple( Transition transition, Place place, int poids, int id) {
+        super(transition, place, poids, id);
     }
 
 }

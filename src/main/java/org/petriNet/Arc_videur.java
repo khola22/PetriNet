@@ -7,8 +7,8 @@ public class Arc_videur extends Arc_ENTRANT {
     int poids;
     int id;
 
-    public Arc_videur(Place place, Transition transition, int poids, int id) {
-        super(place, transition, poids, id);
+    public Arc_videur( Transition transition, Place place, int poids, int id) {
+        super(transition, place, poids, id);
     }
 
     // Les arcs «videurs» qui sont actifs dès qu’il y a un jeton dans la place source et qui enlèvent
@@ -28,7 +28,6 @@ public class Arc_videur extends Arc_ENTRANT {
         // prendre en cond la place choisie
         this.place.enlever_jeton(this.place.get_nombre_jetons());
     }
-
 
 
 }

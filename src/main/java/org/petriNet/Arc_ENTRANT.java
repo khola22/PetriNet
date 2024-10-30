@@ -14,13 +14,8 @@ public abstract class Arc_ENTRANT extends Arc {
     private int poids;
     private int id;
 
-    public Arc_ENTRANT(Place place, Transition transition, int poids, int id) {
-        super(place, transition, poids, id);
-    }
-
-    @Override
-    public void modifierPoids(int poids) {
-        this.poids = poids;
+    public Arc_ENTRANT( Transition transition, Place place, int poids, int id) {
+        super(transition, place, poids, id);
     }
 
     /**
@@ -29,61 +24,14 @@ public abstract class Arc_ENTRANT extends Arc {
      *  ceci pour justifier le cahngement par rapport au diagramme de classe soumis
      */
 
-    public void enleverJetons() {
-        // On retire le nombre de jetons du poids de l'arc
-        this.place.enlever_jeton(this.poids);
-    }
-
     public boolean verifier_tirable() {
-        if (this.place.get_nombre_jetons() >= this.poids) {
-            return true;
-        }
-        return false;
+        return this.getPlace().get_nombre_jetons() >= this.getPoids();
     }
-
 
     @Override
     public void valider() {
         // On retire le nombre de jetons du poids de l'arc
-        // prendre en cond la place choisie
-        this.place.enlever_jeton(this.poids);
-    }
-
-
-
-    @Override
-    public int getPoids() {
-        return this.poids;
-    }
-
-    @Override
-    public int getId() {
-        return this.id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
-    public void setPoid(int poids) {
-        this.poids = poids;
-    }
-
-    @Override
-    public Place getPlace() {
-        return this.place;
-    }
-
-    @Override
-    public void setPlace(Place place) {
-        this.place = place;
-    }
-
-    @Override
-    public Transition getTransition() {
-        return this.transition;
+        this.getPlace().enlever_jeton(this.getPoids());
     }
 
 }
