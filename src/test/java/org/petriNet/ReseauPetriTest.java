@@ -1,5 +1,6 @@
 package org.petriNet;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
@@ -23,7 +24,7 @@ public class ReseauPetriTest {
         Place place = new Place(2, reseauPetri.generateId(1));
         place.ajouter_jeton(-2);
         place.ajouter_jeton(2);
-        assertEquals(4, place.get_nombre_jetons());
+        assertEquals(4, place.get_nombre_jetons(), "CAJ0, CAJ1");
     }
 
     @Test
@@ -31,7 +32,7 @@ public class ReseauPetriTest {
         Place place = new Place(2, reseauPetri.generateId(1));
         place.enlever_jeton(-2);
         place.enlever_jeton(2);
-        assertEquals(0, place.get_nombre_jetons());
+        assertEquals(0, place.get_nombre_jetons(), "CEJ0, CEJ1");
     }
 
     @Test
@@ -41,7 +42,7 @@ public class ReseauPetriTest {
 
         // A test for an existing place
         reseauPetri.ajouterPlace(place);
-        assertEquals(1, reseauPetri.getPlaces().size());
+        assertEquals(1, reseauPetri.getPlaces().size(), "CAP0, CAP1");
     }
 
     @Test
@@ -50,7 +51,7 @@ public class ReseauPetriTest {
         reseauPetri.ajouterTransition(transition);
         // A test for an existing transition
         reseauPetri.ajouterTransition(transition);
-        assertEquals(1, reseauPetri.getTransitions().size());
+        assertEquals(1, reseauPetri.getTransitions().size(), "CAT0, CAT1");
     }
 
     @Test
@@ -65,109 +66,159 @@ public class ReseauPetriTest {
 
         // A test for an existing arc
         reseauPetri.ajouterArc(arc_0);
-        assertEquals(1, reseauPetri.getArcs().size());
+        assertEquals(1, reseauPetri.getArcs().size(), "CAA0, CAA1");
     }
 
     @Test
+    @DisplayName("Assembler un réseau de petri")
     public void testAssemblerPetri(){
 
+        // CR1
         ReseauPetri Mutex = new ReseauPetri();
         Arc arc;
 
+        // CP1
         Place P1 = new Place(0, Mutex.generateId(1));
         Mutex.ajouterPlace(P1);
         Mutex.ajouterPlace(P1);
+        assertEquals(1, Mutex.getPlaces().size(), "CP1") ;
 
+        // CT1
         Transition T1 = new Transition("T1", Mutex.generateId(2));
         Mutex.ajouterTransition(T1);
         Mutex.ajouterTransition(T1);
+        assertEquals(1, Mutex.getTransitions().size(), "CT1");
 
+        // CP2
         Place P2 = new Place(1, Mutex.generateId(1));
         Mutex.ajouterPlace(P2);
+        assertEquals(2, Mutex.getPlaces().size(), "CP2");
 
+        // CT2
         Transition T2 = new Transition("T2", Mutex.generateId(2));
         Mutex.ajouterTransition(T2);
+        assertEquals(2, Mutex.getTransitions().size(), "CT2");
 
+        // CP5
         Place P3 = new Place(0, Mutex.generateId(1));
         Mutex.ajouterPlace(P3);
+        assertEquals(3, Mutex.getPlaces().size(), "CP5");
 
+        // CT3
         Transition T3 = new Transition("T3", Mutex.generateId(2));
         Mutex.ajouterTransition(T3);
+        assertEquals(3, Mutex.getTransitions().size(), "CT3");
 
+        // CP4
         Place P4 = new Place(0, Mutex.generateId(1));
         Mutex.ajouterPlace(P4);
+        assertEquals(4, Mutex.getPlaces().size(), "CP4");
 
+        // CT4
         Transition T4 = new Transition("T4", Mutex.generateId(2));
         Mutex.ajouterTransition(T4);
+        assertEquals(4, Mutex.getTransitions().size(), "CT4");
 
+        // CP5
         Place P5 = new Place(1, Mutex.generateId(1));
         Mutex.ajouterPlace(P5);
+        assertEquals(5, Mutex.getPlaces().size(), "CP5");
 
+        // CPT1
         // Creer l'arc entrant simple à T1 de P1
         arc = new Arc_entrant_simple(T1, P1, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T1.ajouterArc_ENTRANT((Arc_ENTRANT) arc);
+        T1.ajouterArc_ENTRANT((Arc_ENTRANT) arc);
+        assertEquals(1, T1.getArcs_ENTRANTS().size(), "CPT1");
 
+        // CTP2
         // Creer l'arc sortant de T2 vers P1
         arc = new Arc_SORTANT(T2, P1, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T2.ajouterArc_SORTANT((Arc_SORTANT) arc);
+        assertEquals(1, T2.getArcs_SORTANTS().size(), "CTP2");
 
+        // CTP1
         // Creer l'arc sortant de T1 vers P2
         arc = new Arc_SORTANT(T1, P2, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T1.ajouterArc_SORTANT((Arc_SORTANT) arc);
+        assertEquals(1, T1.getArcs_SORTANTS().size(), "CTP1");
 
+        // CPT2
         // Creer l'arc entrant simple à T2 de P2
         arc = new Arc_entrant_simple(T2, P2, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T2.ajouterArc_ENTRANT((Arc_ENTRANT) arc);
+        assertEquals(1, T2.getArcs_ENTRANTS().size(), "CPT2");
 
+        // CPT5
         // Creer l'arc entrant simple à T1 de P3
         arc = new Arc_entrant_simple(T1, P3, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T1.ajouterArc_ENTRANT((Arc_ENTRANT) arc);
+        assertEquals(2, T1.getArcs_ENTRANTS().size(), "CPT5");
 
+        // CTP5
         // Creer l'arc sortant de T2 vers P3
         arc = new Arc_SORTANT(T2, P3, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T2.ajouterArc_SORTANT((Arc_SORTANT) arc);
+        assertEquals(2, T2.getArcs_SORTANTS().size(), "CTP5");
 
+        // CPT6
         // Creer l'arc entrant simple à T3 de P3
         arc = new Arc_entrant_simple(T3, P3, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T3.ajouterArc_ENTRANT((Arc_ENTRANT) arc);
+        assertEquals(1, T3.getArcs_ENTRANTS().size(), "CPT6");
 
+        // CTP6
         // Creer l'arc sortant de T4 vers P3
         arc = new Arc_SORTANT(T4, P3, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T4.ajouterArc_SORTANT((Arc_SORTANT) arc);
+        assertEquals(1, T4.getArcs_SORTANTS().size(), "CTP6");
 
+        // CTP3
         // Creer l'arc sortant de T3 à P4
         arc = new Arc_SORTANT(T3, P4, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T3.ajouterArc_SORTANT((Arc_SORTANT) arc);
+        assertEquals(1, T3.getArcs_SORTANTS().size(), "CTP3");
 
+        // CPT4
         // Creer l'arc entrant à T4 de P4
         arc = new Arc_entrant_simple(T4, P4, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T4.ajouterArc_ENTRANT((Arc_ENTRANT) arc);
+        assertEquals(1, T4.getArcs_ENTRANTS().size(), "CPT4");
 
+        // CPT3
         // Creer l'arc entrant à T3 de P5
         arc = new Arc_entrant_simple(T3, P5, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T3.ajouterArc_ENTRANT((Arc_ENTRANT) arc);
+        assertEquals(2, T3.getArcs_ENTRANTS().size(), "CPT3");
 
+        // CTP4
         // Creer l'arc sortant de T4 vers P5
         arc = new Arc_SORTANT(T4, P5, 1, Mutex.generateId(0));
         Mutex.ajouterArc(arc);
         T4.ajouterArc_SORTANT((Arc_SORTANT) arc);
+        assertEquals(2, T4.getArcs_SORTANTS().size(), "CTP4");
+
+        assertEquals(12, Mutex.getArcs().size(), "There should be 12 unique arcs in Mutex");
+        assertEquals(5, Mutex.getPlaces().size(), "There should be 5 unique places in Mutex");
+        assertEquals(4, Mutex.getTransitions().size(), "There should be 4 unique transitions in Mutex");
 
         Mutex.afficherReseau();
 
     }
 
     @Test
+    @DisplayName("RI")
     public void testActiverPetri_1() {
         ReseauPetri Active = new ReseauPetri();
 
@@ -178,9 +229,12 @@ public class ReseauPetriTest {
         // Tirer T1
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
+
+        assertEquals(1, Active.getTransitions().size(), "RI");
     }
 
     @Test
+    @DisplayName("RD0")
     public void testActiverPetri_2() {
         ReseauPetri Active = new ReseauPetri();
 
@@ -200,9 +254,12 @@ public class ReseauPetriTest {
         // Tirer T1
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
+
+        assertEquals(0, P1.get_nombre_jetons(), "RD0");
     }
 
     @Test
+    @DisplayName("RD1")
     public void testActiverPetri_3() {
         ReseauPetri Active = new ReseauPetri();
 
@@ -222,9 +279,12 @@ public class ReseauPetriTest {
         // Tirer T1
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
+
+        assertEquals(1, P1.get_nombre_jetons(), "RD1");
     }
 
     @Test
+    @DisplayName("RD2")
     public void testActiverPetri_4() {
         ReseauPetri Active = new ReseauPetri();
 
@@ -244,9 +304,12 @@ public class ReseauPetriTest {
         // Tirer T1
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
+
+        assertEquals(2, P1.get_nombre_jetons(), "RD2");
     }
 
     @Test
+    @DisplayName("RG0")
     public void testActiverPetri_5() {
         ReseauPetri Active = new ReseauPetri();
 
@@ -267,9 +330,12 @@ public class ReseauPetriTest {
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
 
+        assertEquals(2, P1.get_nombre_jetons(), "RG0");
+
     }
 
     @Test
+    @DisplayName("RM0")
     public void testActiverPetri_6() {
         ReseauPetri Active = new ReseauPetri();
 
@@ -294,9 +360,13 @@ public class ReseauPetriTest {
         // Tirer T1
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
+
+        assertEquals(0, P1.get_nombre_jetons(), "RM0");
+        assertEquals(2, P2.get_nombre_jetons(), "RM0");
     }
 
     @Test
+    @DisplayName("RM1")
     public void testActiverPetri_7() {
         ReseauPetri Active = new ReseauPetri();
 
@@ -321,9 +391,14 @@ public class ReseauPetriTest {
         // Tirer T1
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
+
+        assertEquals(2, P1.get_nombre_jetons(), "RM1");
+        assertEquals(1, P2.get_nombre_jetons(), "RM1");
+
     }
 
     @Test
+    @DisplayName("RGM")
     public void testActiverPetri_8() {
         ReseauPetri Active = new ReseauPetri();
 
@@ -349,9 +424,13 @@ public class ReseauPetriTest {
         // Tirer T1
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
+
+        assertEquals(1, P1.get_nombre_jetons(), "RGM");
+        assertEquals(0, P2.get_nombre_jetons(), "RGM");
     }
 
     @Test
+    @DisplayName("RDM")
     public void testActiverPetri_9() {
         ReseauPetri Active = new ReseauPetri();
 
@@ -378,9 +457,13 @@ public class ReseauPetriTest {
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
 
+        assertEquals(1, P1.get_nombre_jetons(), "RDM");
+        assertEquals(2, P2.get_nombre_jetons(), "RDM");
+
     }
 
     @Test
+    @DisplayName("RDGM")
     public void testActiverPetri_10() {
         ReseauPetri Active = new ReseauPetri();
 
@@ -419,10 +502,16 @@ public class ReseauPetriTest {
         Active.tirer_transition(String.valueOf(T1.getId()));
         Active.afficherReseau();
 
+        assertEquals(0, P1.get_nombre_jetons(), "RDGM");
+        assertEquals(0, P2.get_nombre_jetons(), "RDGM");
+        assertEquals(1, P3.get_nombre_jetons(), "RDGM");
+        assertEquals(1, P4.get_nombre_jetons(), "RDGM");
+
     }
 
     // Tests de supression
     @Test
+    @DisplayName("ST0")
     public void testSupprimerTransition() {
         ReseauPetri Supp = new ReseauPetri();
 
@@ -430,9 +519,12 @@ public class ReseauPetriTest {
         Supp.ajouterTransition(T1);
         Supp.supprimerTransition(T1);
         Supp.afficherReseau();
+
+        assertEquals(0, Supp.getTransitions().size(), "ST0");
     }
 
     @Test
+    @DisplayName("SP1")
     public void testDestruction_Place(){
         ReseauPetri Destruction = new ReseauPetri();
 
@@ -453,9 +545,14 @@ public class ReseauPetriTest {
         Destruction.supprimerPlace(P1);
         Destruction.afficherReseau();
 
+        assertEquals(0, Destruction.getPlaces().size(), "SP1");
+        assertEquals(1, Destruction.getTransitions().size(), "SP1");
+        assertEquals(0, Destruction.getArcs().size(), "SP1");
+
     }
 
     @Test
+    @DisplayName("ST1")
     public void testDestruction_Transition() {
         ReseauPetri Destruction = new ReseauPetri();
 
@@ -475,9 +572,14 @@ public class ReseauPetriTest {
         // Supprimer la transition T1
         Destruction.supprimerTransition(T1);
         Destruction.afficherReseau();
+
+        assertEquals(1, Destruction.getPlaces().size(), "ST1");
+        assertEquals(0, Destruction.getTransitions().size(), "ST1");
+        assertEquals(0, Destruction.getArcs().size(), "ST1");
     }
 
     @Test
+    @DisplayName("SA1")
     public void testDestruction_Arc() {
         ReseauPetri Destruction = new ReseauPetri();
 
@@ -497,6 +599,10 @@ public class ReseauPetriTest {
         // Supprimer l'arc
         Destruction.supprimerArc(arc);
         Destruction.afficherReseau();
+
+        assertEquals(1, Destruction.getPlaces().size(), "SA1");
+        assertEquals(1, Destruction.getTransitions().size(), "SA1");
+        assertEquals(0, Destruction.getArcs().size(), "SA1");
     }
 
 }
