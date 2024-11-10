@@ -16,7 +16,7 @@ public class Arc_videur extends Arc_ENTRANT {
 
     @Override
     public boolean verifier_tirable() {
-        if (this.place.get_nombre_jetons() > 0) {
+        if ( this.getPlace().get_nombre_jetons()  > 0) {
             return true;
         }
         return false;
@@ -26,7 +26,7 @@ public class Arc_videur extends Arc_ENTRANT {
     public void valider() {
         // On retire le nombre de jetons du poids de l'arc
         // prendre en cond la place choisie
-        this.place.enlever_jeton(this.place.get_nombre_jetons());
+        this.getPlace().enlever_jeton(this.getPlace().get_nombre_jetons());
     }
 
 

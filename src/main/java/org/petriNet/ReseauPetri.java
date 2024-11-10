@@ -111,7 +111,7 @@ public class ReseauPetri implements PetriNetService {
 	public void supprimerPlace(Place place) {
 		this.places.remove(place);
 		// remove all arcs linked to the place
-        this.arcs.removeIf(arc -> arc.getPlace().getId() == place.getId());
+		this.arcs.removeIf(arc -> arc.getPlace().getId() == place.getId());
 	}
 
 	@Override
@@ -209,8 +209,8 @@ public class ReseauPetri implements PetriNetService {
 		System.out.println(this.arcs.size() + " arcs");
 
 		System.out.println("Liste des places :");
-			// On parcourt la liste des arcs pour afficher les places
-			// une liste pur les arcs entrants et une liste pour les arcs sortants
+		// On parcourt la liste des arcs pour afficher les places
+		// une liste pur les arcs entrants et une liste pour les arcs sortants
 		for (Place place : this.places) {
 			List<Arc> arcs_ENTRANTS = new ArrayList<>();
 			List<Arc> arcs_SORTANTS = new ArrayList<>();

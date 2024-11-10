@@ -605,4 +605,13 @@ public class ReseauPetriTest {
         assertEquals(0, Destruction.getArcs().size(), "SA1");
     }
 
+
+
+
+
+
+
+
 }
+
+

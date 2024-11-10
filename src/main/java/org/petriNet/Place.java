@@ -27,7 +27,8 @@ public class Place {
     public void enlever_jeton(int jetons) {
         // verify that the number of tokens is not negative
         if (jetons >= 0) {
-            this.nombre_jeton -= jetons;
+            this.nombre_jeton = Math.max(0, this.nombre_jeton - jetons);
+
         } else {
             System.out.println("The number of tokens cannot be negative.");
         }

@@ -17,6 +17,6 @@ package org.petriNet;
 
     @Override
     public boolean verifier_tirable() {
-        return this.place.get_nombre_jetons() == 0;
+        return this.getPlace().get_nombre_jetons() == 0;
     }
 }
