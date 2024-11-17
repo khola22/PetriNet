@@ -694,6 +694,7 @@ public class PetriNetTest {
         assertEquals(3, place1.getTokenCount(), "Tokens in Place 1 should be 3");
         assertEquals(0, place2.getTokenCount(), "Tokens in Place 2 should be 0");
     }
+
     @Test
     public void testSetTokenCount() {
         Place place = new Place(0, 1);
@@ -784,6 +785,56 @@ public class PetriNetTest {
         assertEquals(transition1, petriNet.getTransitions().get(0));
         assertEquals(transition2, petriNet.getTransitions().get(1));
     }
+    @Test
+    public void testTransitionMethods() {
+        Transition transition = new Transition("T1", 1);
+
+        // Test setOutgoingArcs
+        List<OutgoingArc> outgoingArcs = new ArrayList<>();
+        Place place1 = new Place(2, 2);
+        Place place2 = new Place(3, 3);
+        OutgoingArc arc1 = new OutgoingArc(transition, place1, 1, 4);
+        OutgoingArc arc2 = new OutgoingArc(transition, place2, 2, 5);
+        outgoingArcs.add(arc1);
+        outgoingArcs.add(arc2);
+
+        transition.setOutgoingArcs(outgoingArcs);
+        assertEquals(2, transition.getOutgoingArcs().size());
+        assertEquals(arc1, transition.getOutgoingArcs().get(0));
+        assertEquals(arc2, transition.getOutgoingArcs().get(1));
+
+        // Test addOutgoingArc (duplicate)
+        OutgoingArc duplicateArc = new OutgoingArc(transition, place1, 1, 6); // Same place and weight
+        transition.addOutgoingArc(duplicateArc);
+        assertEquals(2, transition.getOutgoingArcs().size());  // Should not add duplicate
+
+        // Test addOutgoingArc (unique)
+        OutgoingArc uniqueArc = new OutgoingArc(transition, new Place(4, 7), 3, 8);
+        transition.addOutgoingArc(uniqueArc);
+        assertEquals(3, transition.getOutgoingArcs().size());
+        assertTrue(transition.getOutgoingArcs().contains(uniqueArc));
+    }
+    @Test
+    public void testSetPlace() {
+        Transition transition = new Transition("T1", 1);
+        Place initialPlace = new Place(2, 2);
+        Place newPlace = new Place(3, 3);
+        int weight = 1;
+        int id = 4;
+
+        // Create an OutgoingArc
+        OutgoingArc arc = new OutgoingArc(transition, initialPlace, weight, id);
+
+        // Assert initial place
+        assertEquals(initialPlace, arc.getPlace());
+
+        // Set a new place
+        arc.setPlace(newPlace);
+
+        // Assert the place is updated
+        assertEquals(newPlace, arc.getPlace());
+    }
+
 
 
 
