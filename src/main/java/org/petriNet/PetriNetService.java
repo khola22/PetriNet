@@ -1,28 +1,27 @@
 package org.petriNet;
 
 public interface PetriNetService {
-	
-	public void ajouterPlace(Place place);
-	
-	public void ajouterTransition(Transition transition);
-	
-	public void ajouterArc(Arc arc);
 
-	public void supprimerPlace(Place place);
+	void addPlace(Place place);
 
-	public void supprimerTransition(Transition transition);
+	void addTransition(Transition transition);
 
-	public void supprimerArc(Arc arc);
-	
-	public void afficherEtat();
+	void addArc(Arc arc);
+
+	void removePlace(Place place);
+
+	void removeTransition(Transition transition);
+
+	void removeArc(Arc arc);
+
+	void displayState();
 
 	/**
-	 * afficher le réseau de petri
-	 * On a trouver que cette fonction et utile pour visualiser
-	 * le réseau de petri
+	 * Display the Petri net
+	 * We found that this function is useful for visualizing
+	 * the Petri net
 	 */
-	public void afficherReseau();
+	void displayNetwork();
 
-	public void tirer_transition(String id);
-
+	void fireTransition(String id);
 }

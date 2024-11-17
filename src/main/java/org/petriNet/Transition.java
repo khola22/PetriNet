@@ -5,102 +5,92 @@ import java.util.List;
 
 public class Transition {
 
-    private int id;
-    String nom;
-    private List<Arc_SORTANT> arcs_SORTANTS;
-    private List<Arc_ENTRANT> arcs_ENTRANTS;
+    private final int id;
+    String name;
+    private List<OutgoingArc> outgoingArcs;
+    private final List<IncomingArc> incomingArcs;
 
-    public Transition(String nom, int id) {
+    public Transition(String name, int id) {
         this.id = id;
-        this.nom = nom;
-        this.arcs_SORTANTS = new ArrayList<Arc_SORTANT>();
-        this.arcs_ENTRANTS = new ArrayList<Arc_ENTRANT>();
+        this.name = name;
+        this.outgoingArcs = new ArrayList<>();
+        this.incomingArcs = new ArrayList<>();
     }
 
     /**
-     * On ajoute deux méthodes pour pouvoir ajouter les arcs entrants et
-     * sortants à la transition
-     * c'est une différence par rapport au diagramme de classe soumis
+     * We add two methods to be able to add incoming and outgoing arcs to the transition.
+     * This is a difference from the submitted class diagram.
      */
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public List<OutgoingArc> getOutgoingArcs() {
+        return outgoingArcs;
     }
 
-    public List<Arc_SORTANT> getArcs_SORTANTS() {
-        return arcs_SORTANTS;
+    public List<IncomingArc> getIncomingArcs() {
+        return incomingArcs;
     }
 
-    public List<Arc_ENTRANT> getArcs_ENTRANTS() {
-        return arcs_ENTRANTS;
+    public void setOutgoingArcs(List<OutgoingArc> outgoingArcs) {
+        this.outgoingArcs = outgoingArcs;
     }
 
-    public void setArcs_SORTANTS(List<Arc_SORTANT> arcs_SORTANTS) {
-        this.arcs_SORTANTS = arcs_SORTANTS;
-    }
-
-    public void ajouterArc_SORTANT(Arc_SORTANT arc_SORTANT) {
+    public void addOutgoingArc(OutgoingArc outgoingArc) {
         // verify that the arc doesn't already exist
-        for (Arc_SORTANT arc_SORTANT1 : arcs_SORTANTS) {
-            if (arc_SORTANT1.getPlace().getId() == arc_SORTANT.getPlace().getId() &&
-                    arc_SORTANT1.getTransition().getId() == arc_SORTANT.getTransition().getId() &&
-                    arc_SORTANT1.getClass() == arc_SORTANT.getClass()) {
+        for (OutgoingArc existingArc : outgoingArcs) {
+            if (existingArc.getPlace().getId() == outgoingArc.getPlace().getId() &&
+                    existingArc.getTransition().getId() == outgoingArc.getTransition().getId() &&
+                    existingArc.getClass() == outgoingArc.getClass()) {
                 System.out.println("The arc already exists.");
                 return;
             }
         }
-        this.arcs_SORTANTS.add(arc_SORTANT);
+        this.outgoingArcs.add(outgoingArc);
     }
 
-    public void ajouterArc_ENTRANT(Arc_ENTRANT arc_ENTRANT) {
+    public void addIncomingArc(IncomingArc incomingArc) {
         // verify that the arc doesn't already exist
-        for (Arc_ENTRANT arc_ENTRANT1 : arcs_ENTRANTS) {
-            if (arc_ENTRANT1.getPlace().getId() == arc_ENTRANT.getPlace().getId() &&
-                    arc_ENTRANT1.getTransition().getId() == arc_ENTRANT.getTransition().getId() &&
-                    arc_ENTRANT1.getClass() == arc_ENTRANT.getClass()) {
+        for (IncomingArc existingArc : incomingArcs) {
+            if (existingArc.getPlace().getId() == incomingArc.getPlace().getId() &&
+                    existingArc.getTransition().getId() == incomingArc.getTransition().getId() &&
+                    existingArc.getClass() == incomingArc.getClass()) {
                 System.out.println("The arc already exists.");
                 return;
             }
         }
-        this.arcs_ENTRANTS.add(arc_ENTRANT);
+        this.incomingArcs.add(incomingArc);
     }
 
-
-    public boolean est_tirable() {
-
-        for (Arc_ENTRANT arc_ENTRANT : this.arcs_ENTRANTS) {
-            if (!arc_ENTRANT.verifier_tirable()) {
-                System.out.println("La transition n'est pas tirable");
+    public boolean canFire() {
+        for (IncomingArc incomingArc : this.incomingArcs) {
+            if (!incomingArc.canFire()) {
+                System.out.println("The transition cannot fire");
                 return false;
             }
         }
-        System.out.println("La transition est tirable");
+        System.out.println("The transition can fire");
         return true;
-
     }
 
-    public void tirer(){
+    public void fire() {
+        boolean canFire = canFire();
 
-        boolean tirable = est_tirable();
-
-        if (tirable) {
-            for (Arc_ENTRANT arc_ENTRANT : this.getArcs_ENTRANTS()) {
-                arc_ENTRANT.validate();
+        if (canFire) {
+            for (IncomingArc incomingArc : this.getIncomingArcs()) {
+                incomingArc.validate();
             }
 
-            for (Arc_SORTANT arc_SORTANT : this.getArcs_SORTANTS()) {
-                arc_SORTANT.validate();
+            for (OutgoingArc outgoingArc : this.getOutgoingArcs()) {
+                outgoingArc.validate();
             }
-            System.out.println("Transition tirée avec succès");
+            System.out.println("Transition fired successfully");
         }
-
     }
 }

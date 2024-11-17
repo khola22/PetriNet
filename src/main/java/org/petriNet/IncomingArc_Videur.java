@@ -1,13 +1,13 @@
 package org.petriNet;
 
-public class Arc_videur extends Arc_ENTRANT {
+public class IncomingArc_Videur extends IncomingArc {
 
     Place place;
     Transition transition;
     int poids;
     int id;
 
-    public Arc_videur( Transition transition, Place place, int poids, int id) {
+    public IncomingArc_Videur(Transition transition, Place place, int poids, int id) {
         super(transition, place, poids, id);
     }
 
@@ -15,8 +15,8 @@ public class Arc_videur extends Arc_ENTRANT {
     // tous les jetons présents lorsqu’ils sont activés.
 
     @Override
-    public boolean verifier_tirable() {
-        if ( this.getPlace().get_nombre_jetons()  > 0) {
+    public boolean canFire() {
+        if ( this.getPlace().getTokenCount()  > 0) {
             return true;
         }
         return false;
@@ -26,7 +26,7 @@ public class Arc_videur extends Arc_ENTRANT {
     public void validate() {
         // On retire le nombre de jetons du poids de l'arc
         // prendre en cond la place choisie
-        this.getPlace().enlever_jeton(this.getPlace().get_nombre_jetons());
+        this.getPlace().removeTokens(this.getPlace().getTokenCount());
     }
 
 

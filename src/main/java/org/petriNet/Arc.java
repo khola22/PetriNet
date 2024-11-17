@@ -2,9 +2,9 @@ package org.petriNet;
 
 public abstract class Arc {
 
-    private int id;
+    private final int id;
     private Place place;
-    private Transition transition;
+    private final Transition transition;
     private int weight;
 
     public Arc(Transition transition, Place place, int weight, int id) {
@@ -16,7 +16,7 @@ public abstract class Arc {
         } else {
             System.out.println("The weight cannot be negative.");
         }
-        this.id = id; // Assign a unique ID with the generateId method in the ReseauPetri class
+        this.id = id; // Assign a unique ID with the generateId method in the PetriNet class
     }
 
     public abstract void validate();
@@ -45,9 +45,6 @@ public abstract class Arc {
         return this.transition;
     }
 
-    public void removePlace(Place place) {
-        this.place = null;
-    }
 }
 
 
