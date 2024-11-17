@@ -25,13 +25,13 @@ public abstract class Arc_ENTRANT extends Arc {
      */
 
     public boolean verifier_tirable() {
-        return this.getPlace().get_nombre_jetons() >= this.getPoids();
+        return this.getPlace().get_nombre_jetons() >= this.getWeight();
     }
 
     @Override
-    public void valider() {
+    public void validate() {
         // On retire le nombre de jetons du poids de l'arc
-        this.getPlace().enlever_jeton(this.getPoids());
+        this.getPlace().enlever_jeton(this.getWeight());
     }
 
 }

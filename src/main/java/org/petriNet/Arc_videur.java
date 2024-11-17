@@ -23,7 +23,7 @@ public class Arc_videur extends Arc_ENTRANT {
     }
 
     @Override
-    public void valider() {
+    public void validate() {
         // On retire le nombre de jetons du poids de l'arc
         // prendre en cond la place choisie
         this.getPlace().enlever_jeton(this.getPlace().get_nombre_jetons());
