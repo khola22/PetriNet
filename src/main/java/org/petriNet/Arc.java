@@ -28,10 +28,10 @@ public abstract class Arc {
     public int getId() {
         return this.id;
     }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
+// Set weight removed , was not needed
+//    public void setWeight(int weight) {
+//        this.weight = weight;
+//    }
 
     public Place getPlace() {
         return this.place;

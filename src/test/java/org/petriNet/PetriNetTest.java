@@ -3,6 +3,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PetriNetTest {
@@ -689,6 +694,99 @@ public class PetriNetTest {
         assertEquals(3, place1.getTokenCount(), "Tokens in Place 1 should be 3");
         assertEquals(0, place2.getTokenCount(), "Tokens in Place 2 should be 0");
     }
+    @Test
+    public void testSetTokenCount() {
+        Place place = new Place(0, 1);
+
+        // Set the token count to a positive value
+        place.setTokenCount(5);
+        assertEquals(5, place.getTokenCount());
+
+        // Set the token count to zero
+        place.setTokenCount(0);
+        assertEquals(0, place.getTokenCount());
+
+        // Set the token count to a negative value (should be clamped to 0)
+        place.setTokenCount(-2);
+        assertEquals(0, place.getTokenCount());
+    }
+    @Test
+    public void testAddTokens() {
+        Place place = new Place(0, reseauPetri.generateId(1));
+
+        // Test with positive tokens
+        place.addTokens(5);
+        assertEquals(5, place.getTokenCount());
+
+        // Test with zero tokens
+        place.addTokens(0);
+        assertEquals(5, place.getTokenCount());
+
+        // Test with negative tokens (should not change token count)
+        place.addTokens(-2);
+        assertEquals(5, place.getTokenCount());
+    }
+    @Test
+    public void testRemoveTokens() {
+        Place place = new Place(10, reseauPetri.generateId(1));
+
+        // Test with positive tokens less than the current count
+        place.removeTokens(5);
+        assertEquals(5, place.getTokenCount());
+
+        // Test with positive tokens equal to the current count
+        place.removeTokens(5);
+        assertEquals(0, place.getTokenCount());
+
+        // Test with positive tokens greater than the current count (should not go below 0)
+        place.removeTokens(10);
+        assertEquals(0, place.getTokenCount());
+
+        // Test with negative tokens (should not change token count)
+        place.removeTokens(-2);
+        assertEquals(0, place.getTokenCount());
+    }
+    @Test
+    public void testSetPlaces() {
+        PetriNet petriNet = new PetriNet();
+
+        // Create a list of places
+        List<Place> places = new ArrayList<>();
+        Place place1 = new Place(2, petriNet.generateId(1));
+        Place place2 = new Place(3, petriNet.generateId(2));
+        places.add(place1);
+        places.add(place2);
+
+        // Set the places in the Petri net
+        petriNet.setPlaces(places);
+
+        // Assert that the places were correctly set
+        assertEquals(2, petriNet.getPlaces().size());
+        assertEquals(place1, petriNet.getPlaces().get(0));
+        assertEquals(place2, petriNet.getPlaces().get(1));
+    }
+    @Test
+    public void testSetTransitions() {
+        PetriNet petriNet = new PetriNet();
+
+        // Create a list of transitions
+        List<Transition> transitions = new ArrayList<>();
+        Transition transition1 = new Transition("T1", petriNet.generateId(1));
+        Transition transition2 = new Transition("T2", petriNet.generateId(2));
+        transitions.add(transition1);
+        transitions.add(transition2);
+
+        // Set the transitions in the Petri net
+        petriNet.setTransitions(transitions);
+
+        // Assert that the transitions were correctly set
+        assertEquals(2, petriNet.getTransitions().size());
+        assertEquals(transition1, petriNet.getTransitions().get(0));
+        assertEquals(transition2, petriNet.getTransitions().get(1));
+    }
+
+
+
 
 }
 

@@ -42,9 +42,13 @@ public class Place {
     }
 
     public void setTokenCount(int tokenCount) {
-        this.tokenCount = tokenCount;
+        if (tokenCount < 0) {
+            System.out.println("Token count cannot be negative.");
+            this.tokenCount = 0;
+        } else {
+            this.tokenCount = tokenCount;
+        }
     }
-
     // A function to find the incoming arcs of a place
 
 }
