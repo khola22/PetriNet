@@ -595,8 +595,8 @@ public class PetriNetTest {
     }
 
     @Test
-    @DisplayName("ARC ZERO")
-    public void testArcZero() {
+    @DisplayName("SAV")
+    public void testIncomingArcVideur() {
         // Initialize the Petri network
         PetriNet petriNetwork = new PetriNet();
 
@@ -643,8 +643,8 @@ public class PetriNetTest {
     }
 
     @Test
-    @DisplayName("ARC Videur")
-    public void testArcVideur() {
+    @DisplayName("SAZ")
+    public void testIncomingArcZero() {
         // Initialize the Petri network
         PetriNet petriNetwork = new PetriNet();
 
