@@ -194,13 +194,13 @@ public class ReseauPetri implements PetriNetService {
 		 * 1 transition
 		 * 2 arcs
 		 * Liste des places :
-		 * 1 : place avec 4 jetons, 1 arc simple sortant, 0 arc simple entrant
-		 * 2 : place avec 0 jetons, 0 arc simple sortant, 1 arc simple entrant
+		 * 1 : place avec 4 jetons, 1 arc sortant, 0 arc  entrant
+		 * 2 : place avec 0 jetons, 0 arc  sortant, 1 arc  entrant
 		 * Liste des transitions
 		 * 1 : transition, 1 arc entrant, 1 arc sortant
 		 * Liste des arcs :
-		 * 1 : arc simple poids 1 (place avec 4 jetons vers transition)
-		 * 2 : arc simple poids 1 (transition vers place avec 0 jetons)
+		 * 1 : arc poids 1 (place avec 4 jetons vers transition)
+		 * 2 : arc  poids 1 (transition vers place avec 0 jetons)
 		 */
 
 		System.out.println("Réseau de Petri");
@@ -227,7 +227,7 @@ public class ReseauPetri implements PetriNetService {
 			}
 			// entrants / sortants à la place
 			System.out.println(place.getId() + " : place avec " + place.get_nombre_jetons() + " jetons, "
-					+ arcs_ENTRANTS.size() + " arc simple sortant, " + arcs_SORTANTS.size() + " arc simple entrant");
+					+ arcs_ENTRANTS.size() + " arc  sortant, " + arcs_SORTANTS.size() + " arc entrant");
 		}
 
 		System.out.println("Liste des transitions :");
@@ -239,10 +239,10 @@ public class ReseauPetri implements PetriNetService {
 		System.out.println("Liste des arcs :");
 		for (Arc arc : this.arcs) {
 			if (arc instanceof Arc_ENTRANT) {
-				System.out.println(arc.getId() + " : arc simple poids " + arc.getPoids() + " ("
+				System.out.println(arc.getId() + " : arc  poids " + arc.getPoids() + " ("
 						+ "Place d'Id " + arc.getPlace().getId() + " vers " + arc.getTransition().getNom() + ")");
 			} else {
-				System.out.println(arc.getId() + " : arc simple poids " + arc.getPoids() + " ("
+				System.out.println(arc.getId() + " : arc  poids " + arc.getPoids() + " ("
 						+ arc.getTransition().getNom()  + " vers " + "Place d'Id " + arc.getPlace().getId()  + ")");
 			}
 		}
