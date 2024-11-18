@@ -73,6 +73,8 @@ Below is a detailed description of the test cases:
 - **testAddPlace**: Verifies that places can be added only once to the Petri Net.
 - **testAddTransition**: Verifies that transitions can be added uniquely to the Petri Net.
 - **testAddArc**: Validates the addition of arcs, including handling of negative weights and duplicate arcs.
+- **testSetWeight**: Ensures that the weight of an arc can be updated.
+- **testSetTokenCount**: Validates that the token count of a place can be updated.
 
 ### Petri Net Assembly
 
@@ -112,3 +114,9 @@ Tests under this category simulate the firing of transitions and observe token d
 
 - **testIncomingArcVideur (SAV)** : Validates the behavior of the IncomingArc_Videur class by removing all tokens from a place when the connected transition fires.
 - **testIncomingArcZero (SAZ)** : Tests the IncomingArc_Zero class to ensure that the transition fires only when the connected place has zero tokens.
+
+### Test des méthode d'améloriation
+
+- **testActivatePetri_11 (RDGM1)** : Tests the methods setPlaces, setTransitions, setArcs to add a list of these components to the PetriNet all at once, and setOutgoingArcs, setIncomingArcs to
+    add Arcs to a transition all at once.
+- **testActivatePetri_12 (RDGM2)** : Tests the methods createPlaces, createTransitions, create(Incoming or Outgoing)Arcs to create a list of these components automatically and all at once.

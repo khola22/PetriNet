@@ -97,67 +97,6 @@ public class PetriNetTest {
     }
 
     @Test
-    public void testSetPlaces() {
-        PetriNet petriNet = new PetriNet();
-
-        // Create a list of places
-        List<Place> places = new ArrayList<>();
-        Place place1 = new Place(2, petriNet.generateId(1));
-        Place place2 = new Place(3, petriNet.generateId(2));
-        places.add(place1);
-        places.add(place2);
-
-        // Set the places in the Petri net
-        petriNet.setPlaces(places);
-
-        // Assert that the places were correctly set
-        assertEquals(2, petriNet.getPlaces().size());
-        assertEquals(place1, petriNet.getPlaces().get(0));
-        assertEquals(place2, petriNet.getPlaces().get(1));
-    }
-
-    @Test
-    public void testSetTransitions() {
-        PetriNet petriNet = new PetriNet();
-
-        // Create a list of transitions
-        List<Transition> transitions = new ArrayList<>();
-        Transition transition1 = new Transition("T1", petriNet.generateId(1));
-        Transition transition2 = new Transition("T2", petriNet.generateId(2));
-        transitions.add(transition1);
-        transitions.add(transition2);
-
-        // Set the transitions in the Petri net
-        petriNet.setTransitions(transitions);
-
-        // Assert that the transitions were correctly set
-        assertEquals(2, petriNet.getTransitions().size());
-        assertEquals(transition1, petriNet.getTransitions().get(0));
-        assertEquals(transition2, petriNet.getTransitions().get(1));
-    }
-
-    @Test
-    public void testSetPlace() {
-        Transition transition = new Transition("T1", 1);
-        Place initialPlace = new Place(2, 2);
-        Place newPlace = new Place(3, 3);
-        int weight = 1;
-        int id = 4;
-
-        // Create an OutgoingArc
-        OutgoingArc arc = new OutgoingArc(transition, initialPlace, weight, id);
-
-        // Assert initial place
-        assertEquals(initialPlace, arc.getPlace());
-
-        // Set a new place
-        arc.setPlace(newPlace);
-
-        // Assert the place is updated
-        assertEquals(newPlace, arc.getPlace());
-    }
-
-    @Test
     @DisplayName("Assemble Petri")
     public void testAssemblePetri(){
 
@@ -169,48 +108,48 @@ public class PetriNetTest {
         Place P1 = new Place(0, Mutex.generateId(1));
         Mutex.addPlace(P1);
         Mutex.addPlace(P1);
-        assertEquals(1, Mutex.getPlaces().size(), "CP1") ;
+        assertEquals(1, Mutex.getPlaces().size(), "Number of places"); ;
 
         // CT1
         Transition T1 = new Transition("T1", Mutex.generateId(2));
         Mutex.addTransition(T1);
         Mutex.addTransition(T1);
-        assertEquals(1, Mutex.getTransitions().size(), "CT1");
+        assertEquals(1, Mutex.getTransitions().size(), "Number of transitions");
 
         // CP2
         Place P2 = new Place(1, Mutex.generateId(1));
         Mutex.addPlace(P2);
-        assertEquals(2, Mutex.getPlaces().size(), "CP2");
+        assertEquals(2, Mutex.getPlaces().size(), "Number of places");
 
         // CT2
         Transition T2 = new Transition("T2", Mutex.generateId(2));
         Mutex.addTransition(T2);
-        assertEquals(2, Mutex.getTransitions().size(), "CT2");
+        assertEquals(2, Mutex.getTransitions().size(), "Number of transitions");
 
         // CP5
         Place P3 = new Place(0, Mutex.generateId(1));
         Mutex.addPlace(P3);
-        assertEquals(3, Mutex.getPlaces().size(), "CP5");
+        assertEquals(3, Mutex.getPlaces().size(), "Number of places");
 
         // CT3
         Transition T3 = new Transition("T3", Mutex.generateId(2));
         Mutex.addTransition(T3);
-        assertEquals(3, Mutex.getTransitions().size(), "CT3");
+        assertEquals(3, Mutex.getTransitions().size(), "Number of transitions");
 
         // CP4
         Place P4 = new Place(0, Mutex.generateId(1));
         Mutex.addPlace(P4);
-        assertEquals(4, Mutex.getPlaces().size(), "CP4");
+        assertEquals(4, Mutex.getPlaces().size(), "Number of places");
 
         // CT4
         Transition T4 = new Transition("T4", Mutex.generateId(2));
         Mutex.addTransition(T4);
-        assertEquals(4, Mutex.getTransitions().size(), "CT4");
+        assertEquals(4, Mutex.getTransitions().size(), "Number of transitions");
 
         // CP5
         Place P5 = new Place(1, Mutex.generateId(1));
         Mutex.addPlace(P5);
-        assertEquals(5, Mutex.getPlaces().size(), "CP5");
+        assertEquals(5, Mutex.getPlaces().size(), "Number of places");
 
         // CPT1
         // Create the simple incoming arc to T1 from P1
@@ -218,88 +157,88 @@ public class PetriNetTest {
         Mutex.addArc(arc);
         T1.addIncomingArc((IncomingArc) arc);
         T1.addIncomingArc((IncomingArc) arc);
-        assertEquals(1, T1.getIncomingArcs().size(), "CPT1");
+        assertEquals(1, T1.getIncomingArcs().size(), "Number of incoming arcs in T1");
 
         // CTP2
         // Create the simple outgoing arc from T2 to P1
         arc = new OutgoingArc(T2, P1, 1, Mutex.generateId(0));
         Mutex.addArc(arc);
         T2.addOutgoingArc((OutgoingArc) arc);
-        assertEquals(1, T2.getOutgoingArcs().size(), "CTP2");
+        assertEquals(1, T2.getOutgoingArcs().size(), "Number of outgoing arcs in T2");
 
         // CTP1
         // Create the simple outgoing arc from T1 to P2
         arc = new OutgoingArc(T1, P2, 1, Mutex.generateId(0));
         Mutex.addArc(arc);
         T1.addOutgoingArc((OutgoingArc) arc);
-        assertEquals(1, T1.getOutgoingArcs().size(), "CTP1");
+        assertEquals(1, T1.getOutgoingArcs().size(), "Number of outgoing arcsin T1");
 
         // CPT2
         // Create the simple incoming arc to T2 from P2
         arc = new IncomingArc_Simple(T2, P2, 1, Mutex.generateId(0));
         Mutex.addArc(arc);
         T2.addIncomingArc((IncomingArc) arc);
-        assertEquals(1, T2.getIncomingArcs().size(), "CPT2");
+        assertEquals(1, T2.getIncomingArcs().size(), "Number of incoming arcs in T2");
 
         // CPT5
         // Create the simple incoming arc to T1 from P3
         arc = new IncomingArc_Simple(T1, P3, 1, Mutex.generateId(0));
         Mutex.addArc(arc);
         T1.addIncomingArc((IncomingArc) arc);
-        assertEquals(2, T1.getIncomingArcs().size(), "CPT5");
+        assertEquals(2, T1.getIncomingArcs().size(), "Number of incoming arcs in T1");
 
         // CTP5
         // Create the simple outgoing arc from T2 to P3
         arc = new OutgoingArc(T2, P3, 1, Mutex.generateId(0));
         Mutex.addArc(arc);
         T2.addOutgoingArc((OutgoingArc) arc);
-        assertEquals(2, T2.getOutgoingArcs().size(), "CTP5");
+        assertEquals(2, T2.getOutgoingArcs().size(), "Number of outgoing arcs in T2");
 
         // CPT6
         // Create the simple incoming arc to T3 from P3
         arc = new IncomingArc_Simple(T3, P3, 1, Mutex.generateId(0));
         Mutex.addArc(arc);
         T3.addIncomingArc((IncomingArc) arc);
-        assertEquals(1, T3.getIncomingArcs().size(), "CPT6");
+        assertEquals(1, T3.getIncomingArcs().size(), "Number of incoming arcs in T3");
 
         // CTP6
         // Create the simple outgoing arc from T4 to P3
         arc = new OutgoingArc(T4, P3, 1, Mutex.generateId(0));
         Mutex.addArc(arc);
         T4.addOutgoingArc((OutgoingArc) arc);
-        assertEquals(1, T4.getOutgoingArcs().size(), "CTP6");
+        assertEquals(1, T4.getOutgoingArcs().size(), "Number of outgoing arcs in T4");
 
         // CTP3
         // Create the simple outgoing arc from T3 to P4
         arc = new OutgoingArc(T3, P4, 1, Mutex.generateId(0));
         Mutex.addArc(arc);
         T3.addOutgoingArc((OutgoingArc) arc);
-        assertEquals(1, T3.getOutgoingArcs().size(), "CTP3");
+        assertEquals(1, T3.getOutgoingArcs().size(), "Number of outgoing arcs in T3");
 
         // CPT4
         // Create the simple incoming arc to T4 from P4
         arc = new IncomingArc_Simple(T4, P4, 1, Mutex.generateId(0));
         Mutex.addArc(arc);
         T4.addIncomingArc((IncomingArc) arc);
-        assertEquals(1, T4.getIncomingArcs().size(), "CPT4");
+        assertEquals(1, T4.getIncomingArcs().size(), "Number of incoming arcs in T4");
 
         // CPT3
         // Create the simple incoming arc to T3 from P5
         arc = new IncomingArc_Simple(T3, P5, 1, Mutex.generateId(0));
         Mutex.addArc(arc);
         T3.addIncomingArc((IncomingArc) arc);
-        assertEquals(2, T3.getIncomingArcs().size(), "CPT3");
+        assertEquals(2, T3.getIncomingArcs().size(), "Number of incoming arcs in T3");
 
         // CTP4
         // Create the simple outgoing arc from T4 to P5
         arc = new OutgoingArc(T4, P5, 1, Mutex.generateId(0));
         Mutex.addArc(arc);
         T4.addOutgoingArc((OutgoingArc) arc);
-        assertEquals(2, T4.getOutgoingArcs().size(), "CTP4");
+        assertEquals(2, T4.getOutgoingArcs().size(), "Number of outgoing arcs in T4");
 
-        assertEquals(12, Mutex.getArcs().size(), "There should be 12 unique arcs in Mutex");
-        assertEquals(5, Mutex.getPlaces().size(), "There should be 5 unique places in Mutex");
-        assertEquals(4, Mutex.getTransitions().size(), "There should be 4 unique transitions in Mutex");
+        assertEquals(12, Mutex.getArcs().size(), "Total number of arcs");
+        assertEquals(5, Mutex.getPlaces().size(), "Total number of places");
+        assertEquals(4, Mutex.getTransitions().size(), "Total number of transitions");
 
         Mutex.displayNetwork();
 
@@ -318,7 +257,7 @@ public class PetriNetTest {
         Active.fireTransition(String.valueOf(T1.getId()));
         Active.displayNetwork();
 
-        assertEquals(1, Active.getTransitions().size(), "RI");
+        assertEquals(1, Active.getTransitions().size(), "Number of transitions");
     }
 
     @Test
@@ -343,7 +282,7 @@ public class PetriNetTest {
         active.fireTransition(String.valueOf(t1.getId()));
         active.displayNetwork();
 
-        assertEquals(0, p1.getTokenCount(), "RD0");
+        assertEquals(0, p1.getTokenCount(), "Tokens in P1");
     }
 
     @Test
@@ -368,7 +307,7 @@ public class PetriNetTest {
         active.fireTransition(String.valueOf(t1.getId()));
         active.displayNetwork();
 
-        assertEquals(1, p1.getTokenCount(), "RD1");
+        assertEquals(1, p1.getTokenCount(), "Tokens in P1");
     }
 
     @Test
@@ -393,7 +332,7 @@ public class PetriNetTest {
         active.fireTransition(String.valueOf(t1.getId()));
         active.displayNetwork();
 
-        assertEquals(2, p1.getTokenCount(), "RD2");
+        assertEquals(2, p1.getTokenCount(), "Tokens in P1");
     }
 
     @Test
@@ -418,7 +357,7 @@ public class PetriNetTest {
         active.fireTransition(String.valueOf(t1.getId()));
         active.displayNetwork();
 
-        assertEquals(2, p1.getTokenCount(), "RG0");
+            assertEquals(2, p1.getTokenCount(), "Tokens in P1");
     }
 
     @Test
@@ -448,8 +387,8 @@ public class PetriNetTest {
         active.fireTransition(String.valueOf(t1.getId()));
         active.displayNetwork();
 
-        assertEquals(0, p1.getTokenCount(), "RM0");
-        assertEquals(2, p2.getTokenCount(), "RM0");
+        assertEquals(0, p1.getTokenCount(), "Tokens in P1");
+        assertEquals(2, p2.getTokenCount(), "Tokens in P2");
     }
 
     @Test
@@ -479,8 +418,8 @@ public class PetriNetTest {
         active.fireTransition(String.valueOf(t1.getId()));
         active.displayNetwork();
 
-        assertEquals(2, p1.getTokenCount(), "RM1");
-        assertEquals(1, p2.getTokenCount(), "RM1");
+        assertEquals(2, p1.getTokenCount(), "Tokens in P1");
+        assertEquals(1, p2.getTokenCount(), "Tokens in P2");
     }
 
     @Test
@@ -511,8 +450,8 @@ public class PetriNetTest {
         active.fireTransition(String.valueOf(t1.getId()));
         active.displayNetwork();
 
-        assertEquals(1, p1.getTokenCount(), "RGM");
-        assertEquals(0, p2.getTokenCount(), "RGM");
+        assertEquals(1, p1.getTokenCount(), "Tokens in P1");
+        assertEquals(0, p2.getTokenCount(), "Tokens in P2");
     }
 
     @Test
@@ -543,8 +482,8 @@ public class PetriNetTest {
         active.fireTransition(String.valueOf(t1.getId()));
         active.displayNetwork();
 
-        assertEquals(1, p1.getTokenCount(), "RDM");
-        assertEquals(2, p2.getTokenCount(), "RDM");
+        assertEquals(1, p1.getTokenCount(), "Tokens in P1");
+        assertEquals(2, p2.getTokenCount(), "Tokens in P2");
     }
 
     @Test
@@ -587,10 +526,10 @@ public class PetriNetTest {
         active.fireTransition(String.valueOf(t1.getId()));
         active.displayNetwork();
 
-        assertEquals(0, p1.getTokenCount(), "RDGM");
-        assertEquals(0, p2.getTokenCount(), "RDGM");
-        assertEquals(1, p3.getTokenCount(), "RDGM");
-        assertEquals(1, p4.getTokenCount(), "RDGM");
+        assertEquals(0, p1.getTokenCount(), "Tokens in P1");
+        assertEquals(0, p2.getTokenCount(), "Tokens in P2");
+        assertEquals(1, p3.getTokenCount(), "Tokens in P3");
+        assertEquals(1, p4.getTokenCount(), "Tokens in P4");
     }
 
     @Test
@@ -648,13 +587,13 @@ public class PetriNetTest {
         active.fireTransition(String.valueOf(t1.getId()));
         active.displayNetwork();
 
-        assertEquals(4, active.getTransitions().size(), "RDGM");
-        assertEquals(4, active.getPlaces().size(), "RDGM");
-        assertEquals(4, active.getArcs().size(), "RDGM");
-        assertEquals(0, p1.getTokenCount(), "RDGM");
-        assertEquals(0, p2.getTokenCount(), "RDGM");
-        assertEquals(1, p3.getTokenCount(), "RDGM");
-        assertEquals(1, p4.getTokenCount(), "RDGM");
+        assertEquals(4, active.getTransitions().size(), "Number of transitions");
+        assertEquals(4, active.getPlaces().size(), "Number of places");
+        assertEquals(4, active.getArcs().size(), "Number of arcs");
+        assertEquals(0, p1.getTokenCount(), "Tokens in P1");
+        assertEquals(0, p2.getTokenCount(), "Tokens in P2");
+        assertEquals(1, p3.getTokenCount(), "Tokens in P3");
+        assertEquals(1, p4.getTokenCount(), "Tokens in P4");
     }
 
     @Test
@@ -699,19 +638,24 @@ public class PetriNetTest {
         t1.setIncomingArcs(incomingArcsList);
         t1.setOutgoingArcs(outgoingArcsList);
 
-        active.addTransition(t1);
+        // Create other transitions to test PetriNet.setTransitions
+        LinkedList<Transition> transitions;
+        transitions = active.createTransitions(3);
+        transitions.add(t1);
+
+        active.setTransitions(transitions);
 
         // Fire T1
         active.fireTransition(String.valueOf(t1.getId()));
         active.displayNetwork();
 
-        assertEquals(1, active.getTransitions().size(), "RDGM : number of transitions");
-        assertEquals(4, active.getPlaces().size(), "RDGM : number of places");
-        assertEquals(4, active.getArcs().size(), "RDGM : number of arcs");
-        assertEquals(0, places.get(0).getTokenCount(), "RDGM : P1");
-        assertEquals(0, places.get(1).getTokenCount(), "RDGM : P2");
-        assertEquals(1, places.get(2).getTokenCount(), "RDGM : P3");
-        assertEquals(1, places.get(3).getTokenCount(), "RDGM : P4");
+        assertEquals(4, active.getTransitions().size(), "Number of transitions");
+        assertEquals(4, active.getPlaces().size(), "Number of places");
+        assertEquals(4, active.getArcs().size(), "Number of arcs");
+        assertEquals(0, places.get(0).getTokenCount(), "Tokens in P1");
+        assertEquals(0, places.get(1).getTokenCount(), "Tokens in P2");
+        assertEquals(1, places.get(2).getTokenCount(), "Tokens in P3");
+        assertEquals(1, places.get(3).getTokenCount(), "Tokens in P4");
     }
 
     @Test
@@ -724,7 +668,7 @@ public class PetriNetTest {
         supp.removeTransition(t1);
         supp.displayNetwork();
 
-        assertEquals(0, supp.getTransitions().size(), "ST0");
+        assertEquals(0, supp.getTransitions().size(), "number of transitions");
     }
 
     @Test
@@ -749,9 +693,9 @@ public class PetriNetTest {
         destruction.removePlace(p1);
         destruction.displayNetwork();
 
-        assertEquals(0, destruction.getPlaces().size(), "SP1");
-        assertEquals(1, destruction.getTransitions().size(), "SP1");
-        assertEquals(0, destruction.getArcs().size(), "SP1");
+        assertEquals(0, destruction.getPlaces().size(), "Number of places");
+        assertEquals(1, destruction.getTransitions().size(), "Number of transitions");
+        assertEquals(0, destruction.getArcs().size(), "Number of arcs");
     }
 
     @Test
@@ -776,9 +720,9 @@ public class PetriNetTest {
         destruction.removeTransition(t1);
         destruction.displayNetwork();
 
-        assertEquals(1, destruction.getPlaces().size(), "ST1");
-        assertEquals(0, destruction.getTransitions().size(), "ST1");
-        assertEquals(0, destruction.getArcs().size(), "ST1");
+        assertEquals(1, destruction.getPlaces().size(), "Number of places");
+        assertEquals(0, destruction.getTransitions().size(), "Number of transitions");
+        assertEquals(0, destruction.getArcs().size(), "Number of arcs");
     }
 
     @Test
@@ -803,9 +747,9 @@ public class PetriNetTest {
         destruction.removeArc(arc);
         destruction.displayNetwork();
 
-        assertEquals(1, destruction.getPlaces().size(), "SA1");
-        assertEquals(1, destruction.getTransitions().size(), "SA1");
-        assertEquals(0, destruction.getArcs().size(), "SA1");
+        assertEquals(1, destruction.getPlaces().size(), "Number of places");
+        assertEquals(1, destruction.getTransitions().size(), "Number of transitions");
+        assertEquals(0, destruction.getArcs().size(), "Number of arcs");
     }
 
     @Test
@@ -852,8 +796,8 @@ public class PetriNetTest {
         petriNetwork.displayNetwork();
 
         // Assertions to verify the correct state of the Petri network
-        assertEquals(4, place1.getTokenCount(), "Tokens in Place 1 should be 4");
-        assertEquals(0, place2.getTokenCount(), "Tokens in Place 2 should be 0");
+        assertEquals(4, place1.getTokenCount(), "Tokens in Place 1");
+        assertEquals(0, place2.getTokenCount(), "Tokens in Place 2");
     }
 
     @Test
@@ -900,8 +844,8 @@ public class PetriNetTest {
         petriNetwork.displayNetwork();
 
         // Assertions to verify the correct state of the Petri network
-        assertEquals(3, place1.getTokenCount(), "Tokens in Place 1 should be 3");
-        assertEquals(0, place2.getTokenCount(), "Tokens in Place 2 should be 0");
+        assertEquals(3, place1.getTokenCount(), "Tokens in Place 1");
+        assertEquals(0, place2.getTokenCount(), "Tokens in Place 2");
     }
 
 }

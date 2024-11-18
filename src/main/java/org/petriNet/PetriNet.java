@@ -175,6 +175,13 @@
 
 			for (int i = 0; i < numberOfArcs; i++) {
                 switch (types_of_arcs.get(i)) {
+					case "zero":
+						IncomingArc.add(new IncomingArc_Zero(transitions.get(i), places.get(i), weights.get(i), this.generateId(0)));
+					case "videur":
+						IncomingArc.add(new IncomingArc_Videur(transitions.get(i), places.get(i), weights.get(i), this.generateId(0)));
+					case "simple":
+						IncomingArc.add(new IncomingArc_Simple(transitions.get(i), places.get(i), weights.get(i), this.generateId(0)));
+						break;
                     case "Simple":
                         IncomingArc.add(new IncomingArc_Simple(transitions.get(i), places.get(i), weights.get(i), this.generateId(0)));
                         break;
