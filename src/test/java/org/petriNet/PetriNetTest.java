@@ -3,7 +3,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -108,7 +107,7 @@ public class PetriNetTest {
         Place P1 = new Place(0, Mutex.generateId(1));
         Mutex.addPlace(P1);
         Mutex.addPlace(P1);
-        assertEquals(1, Mutex.getPlaces().size(), "Number of places"); ;
+        assertEquals(1, Mutex.getPlaces().size(), "Number of places");
 
         // CT1
         Transition T1 = new Transition("T1", Mutex.generateId(2));

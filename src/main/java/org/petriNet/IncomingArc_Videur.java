@@ -2,11 +2,6 @@ package org.petriNet;
 
 public class IncomingArc_Videur extends IncomingArc {
 
-    Place place;
-    Transition transition;
-    int poids;
-    int id;
-
     public IncomingArc_Videur(Transition transition, Place place, int poids, int id) {
         super(transition, place, poids, id);
     }
@@ -16,10 +11,7 @@ public class IncomingArc_Videur extends IncomingArc {
 
     @Override
     public boolean canFire() {
-        if ( this.getPlace().getTokenCount()  > 0) {
-            return true;
-        }
-        return false;
+        return this.getPlace().getTokenCount() > 0;
     }
 
     @Override

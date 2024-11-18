@@ -140,7 +140,7 @@
 
 			for (int i = 0; i < numberOfPlaces; i++) {
 				places.add(new Place( numberOfTokens.get(i), this.generateId(1)));
-			};
+			}
 			return places;
 		}
 
