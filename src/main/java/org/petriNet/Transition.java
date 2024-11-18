@@ -1,20 +1,21 @@
 package org.petriNet;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Transition {
 
     private final int id;
     String name;
-    private List<OutgoingArc> outgoingArcs;
-    private final List<IncomingArc> incomingArcs;
+    private LinkedList<OutgoingArc> outgoingArcs;
+    private LinkedList<IncomingArc> incomingArcs;
 
     public Transition(String name, int id) {
         this.id = id;
         this.name = name;
-        this.outgoingArcs = new ArrayList<>();
-        this.incomingArcs = new ArrayList<>();
+        this.outgoingArcs = new LinkedList<>();
+        this.incomingArcs = new LinkedList<>();
     }
 
     /**
@@ -38,8 +39,12 @@ public class Transition {
         return incomingArcs;
     }
 
-    public void setOutgoingArcs(List<OutgoingArc> outgoingArcs) {
+    public void setOutgoingArcs(LinkedList<OutgoingArc> outgoingArcs) {
         this.outgoingArcs = outgoingArcs;
+    }
+
+    public void setIncomingArcs(LinkedList<IncomingArc> incomingArcs) {
+        this.incomingArcs = incomingArcs;
     }
 
     public void addOutgoingArc(OutgoingArc outgoingArc) {

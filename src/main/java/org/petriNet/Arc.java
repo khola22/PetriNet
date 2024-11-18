@@ -37,12 +37,16 @@ public abstract class Arc {
         return this.place;
     }
 
+    public Transition getTransition() {
+        return this.transition;
+    }
+
     public void setPlace(Place place) {
         this.place = place;
     }
 
-    public Transition getTransition() {
-        return this.transition;
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
 }

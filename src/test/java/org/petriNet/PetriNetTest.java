@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -67,6 +68,93 @@ public class PetriNetTest {
         // A test for an existing arc
         reseauPetri.addArc(arc_0);
         assertEquals(1, reseauPetri.getArcs().size(), "CAA0, CAA1");
+    }
+
+    @Test
+    public void testSetWeight() {
+        Place place = new Place(2, reseauPetri.generateId(1));
+        Transition transition = new Transition("transition", reseauPetri.generateId(2));
+        OutgoingArc arc = new OutgoingArc(transition, place, 1, reseauPetri.generateId(0));
+        arc.setWeight(2);
+        assertEquals(2, arc.getWeight(), "CSW0, CSW1");
+    }
+
+    @Test
+    public void testSetTokenCount() {
+        Place place = new Place(0, 1);
+
+        // Set the token count to a positive value
+        place.setTokenCount(5);
+        assertEquals(5, place.getTokenCount());
+
+        // Set the token count to zero
+        place.setTokenCount(0);
+        assertEquals(0, place.getTokenCount());
+
+        // Set the token count to a negative value (should be clamped to 0)
+        place.setTokenCount(-2);
+        assertEquals(0, place.getTokenCount());
+    }
+
+    @Test
+    public void testSetPlaces() {
+        PetriNet petriNet = new PetriNet();
+
+        // Create a list of places
+        List<Place> places = new ArrayList<>();
+        Place place1 = new Place(2, petriNet.generateId(1));
+        Place place2 = new Place(3, petriNet.generateId(2));
+        places.add(place1);
+        places.add(place2);
+
+        // Set the places in the Petri net
+        petriNet.setPlaces(places);
+
+        // Assert that the places were correctly set
+        assertEquals(2, petriNet.getPlaces().size());
+        assertEquals(place1, petriNet.getPlaces().get(0));
+        assertEquals(place2, petriNet.getPlaces().get(1));
+    }
+
+    @Test
+    public void testSetTransitions() {
+        PetriNet petriNet = new PetriNet();
+
+        // Create a list of transitions
+        List<Transition> transitions = new ArrayList<>();
+        Transition transition1 = new Transition("T1", petriNet.generateId(1));
+        Transition transition2 = new Transition("T2", petriNet.generateId(2));
+        transitions.add(transition1);
+        transitions.add(transition2);
+
+        // Set the transitions in the Petri net
+        petriNet.setTransitions(transitions);
+
+        // Assert that the transitions were correctly set
+        assertEquals(2, petriNet.getTransitions().size());
+        assertEquals(transition1, petriNet.getTransitions().get(0));
+        assertEquals(transition2, petriNet.getTransitions().get(1));
+    }
+
+    @Test
+    public void testSetPlace() {
+        Transition transition = new Transition("T1", 1);
+        Place initialPlace = new Place(2, 2);
+        Place newPlace = new Place(3, 3);
+        int weight = 1;
+        int id = 4;
+
+        // Create an OutgoingArc
+        OutgoingArc arc = new OutgoingArc(transition, initialPlace, weight, id);
+
+        // Assert initial place
+        assertEquals(initialPlace, arc.getPlace());
+
+        // Set a new place
+        arc.setPlace(newPlace);
+
+        // Assert the place is updated
+        assertEquals(newPlace, arc.getPlace());
     }
 
     @Test
@@ -460,7 +548,7 @@ public class PetriNetTest {
     }
 
     @Test
-    @DisplayName("RDGM")
+    @DisplayName("RDGM0")
     public void testActivatePetri_10() {
         PetriNet active = new PetriNet();
 
@@ -503,6 +591,127 @@ public class PetriNetTest {
         assertEquals(0, p2.getTokenCount(), "RDGM");
         assertEquals(1, p3.getTokenCount(), "RDGM");
         assertEquals(1, p4.getTokenCount(), "RDGM");
+    }
+
+    @Test
+    @DisplayName("RDGM1")
+    public void testActivatePetri_11(){
+        PetriNet active = new PetriNet();
+
+        Transition t1 = new Transition("T1", active.generateId(2));
+
+        /* We test PetriNet.setPlaces(List<Place> places),
+          PetriNet.setArcs(List<Arc> arcs),
+          Transition.setIncomingArcs(List<IncomingArc> incomingArcs),
+          Transition.setOutgoingArcs(List<OutgoingArc> outgoingArcs),
+          PetriNet.setTransitions(List<Transition> transitions)
+         */
+
+        // Active has 4 Places with 1 and 1 tokens and 0 and 0 tokens
+        Place p1 = new Place(1, active.generateId(1));
+        Place p2 = new Place(1, active.generateId(1));
+        Place p3 = new Place(0, active.generateId(1));
+        Place p4 = new Place(0, active.generateId(1));
+        // Add places through a list
+        List<Place> places = Arrays.asList(p1, p2, p3, p4);
+        active.setPlaces(places);
+
+        // Create the simple incoming arc to T1 from P1 and P2
+        IncomingArc arc = new IncomingArc_Simple(t1, p1, 1, active.generateId(0));
+        IncomingArc arc1 = new IncomingArc_Simple(t1, p2, 1, active.generateId(0));
+
+        // Create the outgoing arc from T1 to P3 and P4
+        OutgoingArc arc2 = new OutgoingArc(t1, p3, 1, active.generateId(0));
+        OutgoingArc arc3 = new OutgoingArc(t1, p4, 1, active.generateId(0));
+
+        // Add arcs to Petri through a list
+        List<Arc> arcs = Arrays.asList(arc, arc1, arc2, arc3);
+        active.setArcs(new LinkedList<>(arcs));
+
+        // Add arcs to a transition through a list
+        LinkedList<IncomingArc> incomingArcs = new LinkedList<>(Arrays.asList(arc, arc1));
+        LinkedList<OutgoingArc> outgoingArcs = new LinkedList<>(Arrays.asList(arc2, arc3));
+        t1.setIncomingArcs(incomingArcs);
+        t1.setOutgoingArcs(outgoingArcs);
+
+        // Create other transitions to test PetriNet.setTransitions
+        Transition t2 = new Transition("T2", active.generateId(2));
+        Transition t3 = new Transition("T3", active.generateId(2));
+        Transition t4 = new Transition("T4", active.generateId(2));
+
+        // Add transitions through a list
+        List<Transition> transitions = Arrays.asList(t1, t2, t3, t4);
+
+        active.setTransitions(transitions);
+
+        // Fire T1
+        active.fireTransition(String.valueOf(t1.getId()));
+        active.displayNetwork();
+
+        assertEquals(4, active.getTransitions().size(), "RDGM");
+        assertEquals(4, active.getPlaces().size(), "RDGM");
+        assertEquals(4, active.getArcs().size(), "RDGM");
+        assertEquals(0, p1.getTokenCount(), "RDGM");
+        assertEquals(0, p2.getTokenCount(), "RDGM");
+        assertEquals(1, p3.getTokenCount(), "RDGM");
+        assertEquals(1, p4.getTokenCount(), "RDGM");
+    }
+
+    @Test
+    @DisplayName("RDGM2")
+    public void testActivatePetri_12(){
+        PetriNet active = new PetriNet();
+
+        Transition t1 = new Transition("T1", active.generateId(2));
+
+        // Active has 4 Places with 1 and 1 tokens and 0 and 0 tokens
+        // Create places using the PetriNet.createPlaces(int tokenCount) method
+        // The list of number of tokens is {1, 1, 0, 0}
+        List<Integer> tokenCounts = Arrays.asList(1, 1, 0, 0);
+        List<Place> places = active.createPlaces(4, tokenCounts);
+        active.setPlaces(places);
+
+        // Create the simple incoming arcs to T1 from P1 and P2
+        // Create arcs using the PetriNet.createIncomingArcs(int numberOfArcs, List<String> types_of_arcs, List<Integer> weights,
+        //                                                   List<Place> places, List<Transition> transitions)
+        // The list of types of arcs is {"simple", "simple"}
+        // The list of weights is {1, 1}
+        // The list of places is {P1, P2}
+        // The list of transitions is {T1, T1}
+        List<String> types_of_arcs = Arrays.asList("Simple", "Simple");
+        List<Integer> weights = Arrays.asList(1, 1);
+        LinkedList<Arc> incomingArcs = active.createIncomingArcs(2, types_of_arcs, weights, places.subList(0, 2), Arrays.asList(t1, t1));
+
+        // Create the outgoing arc from T1 to P3 and P4
+        // Create arcs using the PetriNet.createOutgoingArcs(int numberOfArcs, List<Integer> weights, List<Place> places, List<Transition> transitions)
+        // The list of weights is {1, 1}
+        // The list of places is {P3, P4}
+        // The list of transitions is {T1, T1}
+        LinkedList<Arc> outgoingArcs = active.createOutgoingArcs(2, weights, places.subList(2, 4), Arrays.asList(t1, t1));
+
+        // Merge the incoming and outgoing arcs
+        LinkedList<Arc> arcs = new LinkedList<>(incomingArcs);
+        arcs.addAll(outgoingArcs);
+        active.setArcs(arcs);
+
+        LinkedList<IncomingArc> incomingArcsList = incomingArcs.stream().map(arc -> (IncomingArc) arc).collect(Collectors.toCollection(LinkedList::new));
+        LinkedList<OutgoingArc> outgoingArcsList = outgoingArcs.stream().map(arc -> (OutgoingArc) arc).collect(Collectors.toCollection(LinkedList::new));
+        t1.setIncomingArcs(incomingArcsList);
+        t1.setOutgoingArcs(outgoingArcsList);
+
+        active.addTransition(t1);
+
+        // Fire T1
+        active.fireTransition(String.valueOf(t1.getId()));
+        active.displayNetwork();
+
+        assertEquals(1, active.getTransitions().size(), "RDGM : number of transitions");
+        assertEquals(4, active.getPlaces().size(), "RDGM : number of places");
+        assertEquals(4, active.getArcs().size(), "RDGM : number of arcs");
+        assertEquals(0, places.get(0).getTokenCount(), "RDGM : P1");
+        assertEquals(0, places.get(1).getTokenCount(), "RDGM : P2");
+        assertEquals(1, places.get(2).getTokenCount(), "RDGM : P3");
+        assertEquals(1, places.get(3).getTokenCount(), "RDGM : P4");
     }
 
     @Test
@@ -694,150 +903,6 @@ public class PetriNetTest {
         assertEquals(3, place1.getTokenCount(), "Tokens in Place 1 should be 3");
         assertEquals(0, place2.getTokenCount(), "Tokens in Place 2 should be 0");
     }
-
-    @Test
-    public void testSetTokenCount() {
-        Place place = new Place(0, 1);
-
-        // Set the token count to a positive value
-        place.setTokenCount(5);
-        assertEquals(5, place.getTokenCount());
-
-        // Set the token count to zero
-        place.setTokenCount(0);
-        assertEquals(0, place.getTokenCount());
-
-        // Set the token count to a negative value (should be clamped to 0)
-        place.setTokenCount(-2);
-        assertEquals(0, place.getTokenCount());
-    }
-    @Test
-    public void testAddTokens() {
-        Place place = new Place(0, reseauPetri.generateId(1));
-
-        // Test with positive tokens
-        place.addTokens(5);
-        assertEquals(5, place.getTokenCount());
-
-        // Test with zero tokens
-        place.addTokens(0);
-        assertEquals(5, place.getTokenCount());
-
-        // Test with negative tokens (should not change token count)
-        place.addTokens(-2);
-        assertEquals(5, place.getTokenCount());
-    }
-    @Test
-    public void testRemoveTokens() {
-        Place place = new Place(10, reseauPetri.generateId(1));
-
-        // Test with positive tokens less than the current count
-        place.removeTokens(5);
-        assertEquals(5, place.getTokenCount());
-
-        // Test with positive tokens equal to the current count
-        place.removeTokens(5);
-        assertEquals(0, place.getTokenCount());
-
-        // Test with positive tokens greater than the current count (should not go below 0)
-        place.removeTokens(10);
-        assertEquals(0, place.getTokenCount());
-
-        // Test with negative tokens (should not change token count)
-        place.removeTokens(-2);
-        assertEquals(0, place.getTokenCount());
-    }
-    @Test
-    public void testSetPlaces() {
-        PetriNet petriNet = new PetriNet();
-
-        // Create a list of places
-        List<Place> places = new ArrayList<>();
-        Place place1 = new Place(2, petriNet.generateId(1));
-        Place place2 = new Place(3, petriNet.generateId(2));
-        places.add(place1);
-        places.add(place2);
-
-        // Set the places in the Petri net
-        petriNet.setPlaces(places);
-
-        // Assert that the places were correctly set
-        assertEquals(2, petriNet.getPlaces().size());
-        assertEquals(place1, petriNet.getPlaces().get(0));
-        assertEquals(place2, petriNet.getPlaces().get(1));
-    }
-    @Test
-    public void testSetTransitions() {
-        PetriNet petriNet = new PetriNet();
-
-        // Create a list of transitions
-        List<Transition> transitions = new ArrayList<>();
-        Transition transition1 = new Transition("T1", petriNet.generateId(1));
-        Transition transition2 = new Transition("T2", petriNet.generateId(2));
-        transitions.add(transition1);
-        transitions.add(transition2);
-
-        // Set the transitions in the Petri net
-        petriNet.setTransitions(transitions);
-
-        // Assert that the transitions were correctly set
-        assertEquals(2, petriNet.getTransitions().size());
-        assertEquals(transition1, petriNet.getTransitions().get(0));
-        assertEquals(transition2, petriNet.getTransitions().get(1));
-    }
-    @Test
-    public void testTransitionMethods() {
-        Transition transition = new Transition("T1", 1);
-
-        // Test setOutgoingArcs
-        List<OutgoingArc> outgoingArcs = new ArrayList<>();
-        Place place1 = new Place(2, 2);
-        Place place2 = new Place(3, 3);
-        OutgoingArc arc1 = new OutgoingArc(transition, place1, 1, 4);
-        OutgoingArc arc2 = new OutgoingArc(transition, place2, 2, 5);
-        outgoingArcs.add(arc1);
-        outgoingArcs.add(arc2);
-
-        transition.setOutgoingArcs(outgoingArcs);
-        assertEquals(2, transition.getOutgoingArcs().size());
-        assertEquals(arc1, transition.getOutgoingArcs().get(0));
-        assertEquals(arc2, transition.getOutgoingArcs().get(1));
-
-        // Test addOutgoingArc (duplicate)
-        OutgoingArc duplicateArc = new OutgoingArc(transition, place1, 1, 6); // Same place and weight
-        transition.addOutgoingArc(duplicateArc);
-        assertEquals(2, transition.getOutgoingArcs().size());  // Should not add duplicate
-
-        // Test addOutgoingArc (unique)
-        OutgoingArc uniqueArc = new OutgoingArc(transition, new Place(4, 7), 3, 8);
-        transition.addOutgoingArc(uniqueArc);
-        assertEquals(3, transition.getOutgoingArcs().size());
-        assertTrue(transition.getOutgoingArcs().contains(uniqueArc));
-    }
-    @Test
-    public void testSetPlace() {
-        Transition transition = new Transition("T1", 1);
-        Place initialPlace = new Place(2, 2);
-        Place newPlace = new Place(3, 3);
-        int weight = 1;
-        int id = 4;
-
-        // Create an OutgoingArc
-        OutgoingArc arc = new OutgoingArc(transition, initialPlace, weight, id);
-
-        // Assert initial place
-        assertEquals(initialPlace, arc.getPlace());
-
-        // Set a new place
-        arc.setPlace(newPlace);
-
-        // Assert the place is updated
-        assertEquals(newPlace, arc.getPlace());
-    }
-
-
-
-
 
 }
 

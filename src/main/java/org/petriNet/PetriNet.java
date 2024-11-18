@@ -53,9 +53,9 @@
 			return this.arcs;
 		}
 
-//		public void setArcs(LinkedList<Arc> arcs) {
-//			this.arcs = arcs;
-//		}
+		public void setArcs(LinkedList<Arc> arcs) {
+			this.arcs = arcs;
+		}
 
 		@Override
 		public void addPlace(Place place) {
@@ -94,6 +94,137 @@
 			}
 			this.arcs.add(arc);
 		}
+
+		/**
+		 * We add a method to create many transitions at once.
+		 * This is an enhancement to avoid many lines of code.
+		 * @param numberOfTransitions the number of transitions to create
+		 * @return List<Transition>
+		 */
+
+		public LinkedList<Transition> createTransitions(int numberOfTransitions) {
+			LinkedList<Transition> transitions = new LinkedList<>();
+			// verify that the number of transitions is positive
+			if (numberOfTransitions <= 0) {
+				System.out.println("The number of transitions must be positive");
+				return transitions;
+			}
+			for (int i = 0; i < numberOfTransitions; i++) {
+				int id = this.generateId(2);
+				Transition transition = new Transition("Transition " + id, id);
+				transitions.add(transition);
+			}
+			return transitions;
+		}
+
+		/**
+		 * We add a method to create many places at once.
+		 * This is an enhancement to avoid many lines of code.
+		 * @param numberOfPlaces the number of places to create
+		 * @param numberOfTokens List<int> of tokens for each place
+		 * @return List<Place>
+		 */
+
+		public LinkedList<Place> createPlaces(int numberOfPlaces, List<Integer> numberOfTokens) {
+			LinkedList<Place> places = new LinkedList<>();
+
+			/* Verify that the number of tokens is equal to the number of places
+			* Verify that the number of tokens is positive
+			* verify that the number of places is positive
+			*/
+
+			if (numberOfPlaces <= 0 || numberOfTokens.size() != numberOfPlaces || numberOfTokens.stream().anyMatch(token -> token < 0)) {
+				System.out.println("Error: The number of places must be positive, the number of tokens must be positive and equal to the number of places");
+				return places;
+			}
+
+			for (int i = 0; i < numberOfPlaces; i++) {
+				places.add(new Place( numberOfTokens.get(i), this.generateId(1)));
+			};
+			return places;
+		}
+
+		/**
+		 * We add a method to create many Incoming arcs at once.
+		 * This is an enhancement to avoid many lines of code.
+		 * If one of the types of arcs is not valid, the method will return null.
+		 *
+		 * @param numberOfArcs  the number of Incoming Arcs to create
+		 * @param weights       List<int> of weights for each Incoming Arc
+		 * @param places        List<Place> of places for each Incoming Arc
+		 * @param transitions   List<Transition> of transitions for each Incoming Arc
+		 * @param types_of_arcs List<String> of types for each Incoming Arc
+		 * @return List<IncomingArc>
+		 */
+
+		public LinkedList<Arc> createIncomingArcs(int numberOfArcs, List<String> types_of_arcs, List<Integer> weights, List<Place> places, List<Transition> transitions) {
+			LinkedList<Arc> IncomingArc = new LinkedList<>();
+
+			/* Verify that the number of IncomingArc is positive
+			 * Verify that the number of weights is equal to the number of IncomingArc
+			 * Verify that the number of weights is positive
+			 * Verify that the number of places is equal to the number of IncomingArc
+			 * Verify that the number of transitions is equal to the number of IncomingArc
+			 */
+
+			if (numberOfArcs <= 0 || weights.size() != numberOfArcs || weights.stream().anyMatch(weight -> weight < 0) ||
+					places.size() != numberOfArcs || transitions.size() != numberOfArcs) {
+				System.out.println("Error: The number of weights, places, and transitions must be positive and equal to the number of IncomingArc");
+				return IncomingArc;
+			}
+
+			for (int i = 0; i < numberOfArcs; i++) {
+                switch (types_of_arcs.get(i)) {
+                    case "Simple":
+                        IncomingArc.add(new IncomingArc_Simple(transitions.get(i), places.get(i), weights.get(i), this.generateId(0)));
+                        break;
+                    case "Videur":
+                        IncomingArc.add(new IncomingArc_Videur(transitions.get(i), places.get(i), weights.get(i), this.generateId(0)));
+                        break;
+                    case "Zero":
+                        IncomingArc.add(new IncomingArc_Zero(transitions.get(i), places.get(i), weights.get(i), this.generateId(0)));
+                        break;
+                    default:
+                        System.out.println("Error: one of he type of arc is not valid");
+                        return null;
+                }
+			}
+			return IncomingArc;
+		}
+
+		/**
+		 * We add a method to create many Outgoing arcs at once.
+		 * This is an enhancement to avoid many lines of code.
+		 * @param numberOfArcs the number of Outgoing Arcs to create
+		 * @param weights List<int> of weights for each Outgoing Arc
+		 * @param places List<Place> of places for each Outgoing Arc
+		 * @param transitions List<Transition> of transitions for each Outgoing Arc
+		 * @return List<Arc>
+		 */
+
+		public LinkedList<Arc> createOutgoingArcs(int numberOfArcs, List<Integer> weights, List<Place> places, List<Transition> transitions) {
+			LinkedList<Arc> OutgoingArc = new LinkedList<>();
+
+			/* Verify that the number of OutgoingArc is positive
+			 * Verify that the number of weights is equal to the number of OutgoingArc
+			 * Verify that the number of weights is positive
+			 * Verify that the number of places is equal to the number of OutgoingArc
+			 * Verify that the number of transitions is equal to the number of OutgoingArc
+			 */
+
+			if (numberOfArcs <= 0 || weights.size() != numberOfArcs || weights.stream().anyMatch(weight -> weight < 0) ||
+					places.size() != numberOfArcs || transitions.size() != numberOfArcs) {
+				System.out.println("Error: The number of weights, places, and transitions must be positive and equal to the number of OutgoingArc");
+				return OutgoingArc;
+			}
+
+			for (int i = 0; i < numberOfArcs; i++) {
+				OutgoingArc.add(new OutgoingArc(transitions.get(i), places.get(i), weights.get(i), this.generateId(0)));
+			}
+			return OutgoingArc;
+		}
+
+
 
 		/**
 		 * Removing a place results in the removal of all arcs linked to it.
