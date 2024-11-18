@@ -231,7 +231,27 @@
 			return OutgoingArc;
 		}
 
+		@Override
+		public Place FindPlaceById(int id) {
+			for (Place place : this.places) {
+				if (place.getId() == id) {
+					return place;
+				}
+			}
+			System.out.println("Place not found");
+			return null;
+		}
 
+		@Override
+		public Arc FindArcById(int id) {
+			for (Arc arc : this.arcs) {
+				if (arc.getId() == id) {
+					return arc;
+				}
+			}
+			System.out.println("Arc not found");
+			return null;
+		}
 
 		/**
 		 * Removing a place results in the removal of all arcs linked to it.
@@ -291,17 +311,85 @@
 		public void displayState() {
 			if (this.networkState.equals("No transition fired")) {
 				System.out.println("No transition fired");
-				// Ask the user if they want to fire a transition
 				Scanner scanner = new Scanner(System.in);
-				System.out.println("Do you want to fire a transition? (Y/N)");
-				String response = scanner.nextLine();
-				if (response.equals("Y")) {
-					// Show the Petri Net
-					displayNetwork();
-					// Ask the user for the id of the transition to fire
-					System.out.println("Enter the id of the transition to fire: ");
-					String id = scanner.nextLine();
-					fireTransition(id);
+				while (true) {
+					System.out.println("Choose an option:");
+					System.out.println("1. Display the network");
+					System.out.println("2. Fire a transition");
+					System.out.println("3. Change the number of tokens in a place");
+					System.out.println("4. Change the weight of an arc");
+					System.out.println("5. Change an arc to an IncomingArc_Videur or IncomingArc_Zero");
+					System.out.println("6. Exit");
+					String response = scanner.nextLine();
+
+					switch (response) {
+						case "1":
+							displayNetwork();
+							break;
+						case "2":
+							System.out.println("Enter the id of the transition to fire: ");
+							int transitionId = getIntInput(scanner);
+							fireTransition(String.valueOf(transitionId));
+							break;
+						case "3":
+							System.out.println("Enter the id of the place to change tokens: ");
+							int placeId = getIntInput(scanner);
+							System.out.println("Enter the new number of tokens: ");
+							int tokens = getIntInput(scanner);
+							Place place = this.FindPlaceById(placeId);
+							if (place == null) {
+								break;
+							}
+							place.setTokenCount(tokens);
+							break;
+						case "4":
+							System.out.println("Enter the id of the arc to change weight: ");
+							int arcId = getIntInput(scanner);
+							System.out.println("Enter the new weight: ");
+							int weight = getIntInput(scanner);
+							Arc arc = this.FindArcById(arcId);
+							if (arc == null) {
+								break;
+							}
+							arc.setWeight(weight);
+							break;
+						case "5":
+							System.out.println("Enter the id of the arc to change: ");
+							int arcToChangeId = getIntInput(scanner);
+							Arc arcToChange = this.FindArcById(arcToChangeId);
+							if (arcToChange == null) {
+								break;
+							}
+							if (arcToChange instanceof IncomingArc) {
+								System.out.println("Choose the type of arc to change to:");
+								System.out.println("1. IncomingArc_Videur");
+								System.out.println("2. IncomingArc_Zero");
+								int arcType = getIntInput(scanner);
+								Transition transition = arcToChange.getTransition();
+								Place placeToChange = arcToChange.getPlace();
+								this.removeArc(arcToChange);
+								if (arcType == 1) {
+									IncomingArc_Videur newArc = new IncomingArc_Videur(transition, placeToChange, arcToChange.getWeight(), this.generateId(0));
+									this.addArc(newArc);
+									transition.addIncomingArc(newArc);
+									System.out.println("Arc changed to IncomingArc_Videur.");
+								} else if (arcType == 2) {
+									IncomingArc_Zero newArc = new IncomingArc_Zero(transition, placeToChange, arcToChange.getWeight(), this.generateId(0));
+									this.addArc(newArc);
+									transition.addIncomingArc(newArc);
+									System.out.println("Arc changed to IncomingArc_Zero.");
+								} else {
+									System.out.println("Invalid arc type.");
+								}
+							} else {
+								System.out.println("Arc is not an IncomingArc.");
+							}
+							break;
+						case "6":
+							return; // Exit the method
+						default:
+							System.out.println("Invalid option. Please try again.");
+					}
 				}
 			} else {
 				System.out.println("Transition being validated");
@@ -346,12 +434,24 @@
 			System.out.println("List of arcs:");
 			for (Arc arc : this.arcs) {
 				if (arc instanceof IncomingArc) {
-					System.out.println(arc.getId() + " : simple arc with weight " + arc.getWeight() + " ("
+					System.out.println(arc.getId() + " : "
+							+ (arc instanceof IncomingArc_Videur ? "videur" : (arc instanceof IncomingArc_Zero ? "zero" : "simple arc"))
+							+ " with weight " + arc.getWeight() + " ("
 							+ "Place with Id " + arc.getPlace().getId() + " to " + arc.getTransition().getName() + ")");
 				} else {
-					System.out.println(arc.getId() + " : simple arc with weight " + arc.getWeight() + " ("
+					System.out.println(arc.getId() + " : outgoing arc with weight " + arc.getWeight() + " ("
 							+ arc.getTransition().getName() + " to " + "Place with Id " + arc.getPlace().getId() + ")");
 				}
 			}
+		}
+
+		private int getIntInput(Scanner scanner) {
+			while (!scanner.hasNextInt()) {
+				System.out.println("Invalid input. Please enter an integer.");
+				scanner.next(); // discard invalid input
+			}
+			int input = scanner.nextInt();
+			scanner.nextLine(); // consume the newline character
+			return input;
 		}
 	}

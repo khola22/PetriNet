@@ -14,6 +14,10 @@ public interface PetriNetService {
 
 	void removeArc(Arc arc);
 
+	Place FindPlaceById(int id);
+
+	Arc FindArcById(int id);
+
 	void displayState();
 
 	/**

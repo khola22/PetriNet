@@ -1,142 +1,134 @@
 package org.petriNet;
 
-import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Choose which simulation to run:");
-        System.out.println("1. Standard Petri Network");
-        System.out.println("2. Special Videur Arc Network");
-        System.out.println("3. Special Zero Arc Petri Network");
-        System.out.print("Enter your choice (1/2/3): ");
-
-        int choice = scanner.nextInt();
-
-        switch (choice) {
-            case 1:
-                runStandardPetriNetwork();
-                break;
-            case 2:
-                runSpecialVideur();
-                break;
-            case 3:
-                runSpecialZero();
-                break;
-            default:
-                System.out.println("Invalid choice! Please run the program again.");
-        }
-
-        scanner.close();
-    }
-
-    private static void runStandardPetriNetwork() {
         System.out.println("Running Standard Petri Network Simulation...");
-        // Initialize the Petri network
-        PetriNet petriNetwork = new PetriNet();
-        // Create places
 
-        Place place1 = new Place(3, petriNetwork.generateId(1));
-        Place place2 = new Place(0, petriNetwork.generateId(1));
-        // Add places to the network
+        // CR1
+        PetriNet Mutex = new PetriNet();
+        Arc arc;
 
-        petriNetwork.addPlace(place1);
-        petriNetwork.addPlace(place2);
-        // Create a transition and add it
+        // CP1
+        Place P1 = new Place(0, Mutex.generateId(1));
+        Mutex.addPlace(P1);
 
-        Transition transition1 = new Transition("T1", petriNetwork.generateId(2));
-        petriNetwork.addTransition(transition1);
-        // Create arcs and add them to the network
-        IncomingArc incomingArc = new IncomingArc_Simple(transition1, place1, 1, petriNetwork.generateId(0));
-        petriNetwork.addArc(incomingArc);
-        transition1.addIncomingArc(incomingArc);
+        // CT1
+        Transition T1 = new Transition("T1", Mutex.generateId(2));
+        Mutex.addTransition(T1);
 
-        OutgoingArc outgoingArc = new OutgoingArc(transition1, place2, 1, petriNetwork.generateId(0));
-        petriNetwork.addArc(outgoingArc);
-        transition1.addOutgoingArc(outgoingArc);
+        // CP2
+        Place P2 = new Place(1, Mutex.generateId(1));
+        Mutex.addPlace(P2);
 
-        petriNetwork.displayNetwork();
+        // CT2
+        Transition T2 = new Transition("T2", Mutex.generateId(2));
+        Mutex.addTransition(T2);
 
-        System.out.println("\nActivating transition T1...");
-        petriNetwork.fireTransition(String.valueOf(transition1.getId()));
+        // CP5
+        Place P3 = new Place(0, Mutex.generateId(1));
+        Mutex.addPlace(P3);
 
-        System.out.println("\nState of Petri Network after Transition T1 Activation:");
-        petriNetwork.displayNetwork();
+        // CT3
+        Transition T3 = new Transition("T3", Mutex.generateId(2));
+        Mutex.addTransition(T3);
 
-        System.out.println("\nVerifying state:");
-        System.out.println("Tokens in Place 1 (expected 2): " + place1.getTokenCount());
-        System.out.println("Tokens in Place 2 (expected 1): " + place2.getTokenCount());
-    }
+        // CP4
+        Place P4 = new Place(0, Mutex.generateId(1));
+        Mutex.addPlace(P4);
 
-    private static void runSpecialVideur() {
-        System.out.println("Running Special Videur Transition Simulation...");
+        // CT4
+        Transition T4 = new Transition("T4", Mutex.generateId(2));
+        Mutex.addTransition(T4);
 
-        PetriNet petriNetwork = new PetriNet();
+        // CP5
+        Place P5 = new Place(1, Mutex.generateId(1));
+        Mutex.addPlace(P5);
 
-        Place place1 = new Place(2, petriNetwork.generateId(1));
-        Place place2 = new Place(4, petriNetwork.generateId(1));
+        // CPT1
+        // Create the simple incoming arc to T1 from P1
+        arc = new IncomingArc_Simple(T1, P1, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T1.addIncomingArc((IncomingArc) arc);
 
-        petriNetwork.addPlace(place1);
-        petriNetwork.addPlace(place2);
 
-        Transition transition1 = new Transition("T1", petriNetwork.generateId(2));
-        petriNetwork.addTransition(transition1);
+        // CTP2
+        // Create the simple outgoing arc from T2 to P1
+        arc = new OutgoingArc(T2, P1, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T2.addOutgoingArc((OutgoingArc) arc);
 
-        IncomingArc_Videur incomingArc_videur = new IncomingArc_Videur(transition1, place2, 1, petriNetwork.generateId(0));
-        petriNetwork.addArc(incomingArc_videur);
-        transition1.addIncomingArc(incomingArc_videur);
 
-        OutgoingArc outgoingArc = new OutgoingArc(transition1, place1, 1, petriNetwork.generateId(0));
-        petriNetwork.addArc(outgoingArc);
-        transition1.addOutgoingArc(outgoingArc);
+        // CTP1
+        // Create the simple outgoing arc from T1 to P2
+        arc = new OutgoingArc(T1, P2, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T1.addOutgoingArc((OutgoingArc) arc);
 
-        petriNetwork.displayNetwork();
 
-        System.out.println("\nActivating transition T1...");
-        petriNetwork.fireTransition(String.valueOf(transition1.getId()));
+        // CPT2
+        // Create the simple incoming arc to T2 from P2
+        arc = new IncomingArc_Simple(T2, P2, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T2.addIncomingArc((IncomingArc) arc);
 
-        System.out.println("\nState of Petri Network after Transition T1 Activation:");
-        petriNetwork.displayNetwork();
 
-        System.out.println("\nVerifying state:");
-        System.out.println("Tokens in Place 1 (expected 3): " + place1.getTokenCount());
-        System.out.println("Tokens in Place 2 (expected 0): " + place2.getTokenCount());
-    }
+        // CPT5
+        // Create the simple incoming arc to T1 from P3
+        arc = new IncomingArc_Simple(T1, P3, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T1.addIncomingArc((IncomingArc) arc);
 
-    private static void runSpecialZero() {
-        System.out.println("Running Special Zero Transition Simulation...");
 
-        PetriNet petriNetwork = new PetriNet();
+        // CTP5
+        // Create the simple outgoing arc from T2 to P3
+        arc = new OutgoingArc(T2, P3, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T2.addOutgoingArc((OutgoingArc) arc);
 
-        Place place1 = new Place(3, petriNetwork.generateId(1));
-        Place place2 = new Place(0, petriNetwork.generateId(1));
 
-        petriNetwork.addPlace(place1);
-        petriNetwork.addPlace(place2);
+        // CPT6
+        // Create the simple incoming arc to T3 from P3
+        arc = new IncomingArc_Simple(T3, P3, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T3.addIncomingArc((IncomingArc) arc);
 
-        Transition transition1 = new Transition("T1", petriNetwork.generateId(2));
-        petriNetwork.addTransition(transition1);
 
-        IncomingArc_Zero incomingArc_zero = new IncomingArc_Zero(transition1, place2, 1, petriNetwork.generateId(0));
-        petriNetwork.addArc(incomingArc_zero);
-        transition1.addIncomingArc(incomingArc_zero);
+        // CTP6
+        // Create the simple outgoing arc from T4 to P3
+        arc = new OutgoingArc(T4, P3, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T4.addOutgoingArc((OutgoingArc) arc);
 
-        OutgoingArc outgoingArc = new OutgoingArc(transition1, place1, 1, petriNetwork.generateId(0));
-        petriNetwork.addArc(outgoingArc);
-        transition1.addOutgoingArc(outgoingArc);
 
-        petriNetwork.displayNetwork();
+        // CTP3
+        // Create the simple outgoing arc from T3 to P4
+        arc = new OutgoingArc(T3, P4, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T3.addOutgoingArc((OutgoingArc) arc);
 
-        System.out.println("\nActivating transition T1...");
-        petriNetwork.fireTransition(String.valueOf(transition1.getId()));
 
-        System.out.println("\nState of Petri Network after Transition T1 Activation:");
-        petriNetwork.displayNetwork();
+        // CPT4
+        // Create the simple incoming arc to T4 from P4
+        arc = new IncomingArc_Simple(T4, P4, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T4.addIncomingArc((IncomingArc) arc);
 
-        System.out.println("\nVerifying state:");
-        System.out.println("Tokens in Place 1 (expected 4): " + place1.getTokenCount());
-        System.out.println("Tokens in Place 2 (expected 0): " + place2.getTokenCount());
+
+        // CPT3
+        // Create the simple incoming arc to T3 from P5
+        arc = new IncomingArc_Simple(T3, P5, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T3.addIncomingArc((IncomingArc) arc);
+
+
+        // CTP4
+        // Create the simple outgoing arc from T4 to P5
+        arc = new OutgoingArc(T4, P5, 1, Mutex.generateId(0));
+        Mutex.addArc(arc);
+        T4.addOutgoingArc((OutgoingArc) arc);
+
+
+        Mutex.displayState();
     }
 }

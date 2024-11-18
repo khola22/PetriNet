@@ -49,6 +49,5 @@ public class Place {
             this.tokenCount = tokenCount;
         }
     }
-    // A function to find the incoming arcs of a place
 
 }
