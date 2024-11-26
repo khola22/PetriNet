@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="pne-editor">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../pne-editor" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../pne-editor/src" />
+    </SOURCES>
+  </library>
+</component>
