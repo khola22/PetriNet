@@ -7,8 +7,8 @@ public class Transition {
 
     private final int id;
     String name;
-    private LinkedList<OutgoingArc> outgoingArcs;
-    private LinkedList<IncomingArc> incomingArcs;
+    private List<OutgoingArc> outgoingArcs;
+    private List<IncomingArc> incomingArcs;
 
     public Transition(String name, int id) {
         this.id = id;

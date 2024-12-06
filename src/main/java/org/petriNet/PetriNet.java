@@ -8,7 +8,7 @@
 		private final LinkedList<Integer> idCounters;
 		private List<Place> places;
 		private List<Transition> transitions;
-		private LinkedList<Arc> arcs;
+		private List<Arc> arcs;
 		private String networkState = "No transition fired";
 
 		// Create a constructor
@@ -49,7 +49,7 @@
 			this.transitions = transitions;
 		}
 
-		public LinkedList<Arc> getArcs() {
+		public List<Arc> getArcs() {
 			return this.arcs;
 		}
 
