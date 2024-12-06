@@ -63,12 +63,12 @@ and functionality of the PetriNet system. These tests are organized to validate 
 operations of a Petri Net, including places, transitions, arcs, and their interactions. 
 Below is a detailed description of the test cases:
 
-###  Basic Place Operations :
+###  Basic Place Operations in the PetriNetStructureTest class:
 
 - **testAddTokens**: Verifies that tokens can be added to a place.
 - **testRemoveTokens**: Verifies that tokens can be removed from a place.
 
-### Network Structure Management
+### Network Structure Management in the PetriNetStructureTest class
 
 - **testAddPlace**: Verifies that places can be added only once to the Petri Net.
 - **testAddTransition**: Verifies that transitions can be added uniquely to the Petri Net.
@@ -76,7 +76,7 @@ Below is a detailed description of the test cases:
 - **testSetWeight**: Ensures that the weight of an arc can be updated.
 - **testSetTokenCount**: Validates that the token count of a place can be updated.
 
-### Petri Net Assembly
+### Petri Net Assembly in the PetriNetAssemblyTest class
 
 - **testAssemblePetri**: Constructs a full Petri Net representing a Mutex system with places, transitions, and arcs. This test ensures:
 
@@ -84,7 +84,7 @@ Below is a detailed description of the test cases:
   - The correct number of arcs, places, and transitions are present.
   - Complex connections and token flows are correctly assembled.
 
-### Activation and Transition Firing
+### Activation and Transition Firing in the PetriNetActivationTest class
 
 Tests under this category simulate the firing of transitions and observe token dynamics across the Petri Net:
 - **testActivatePetri_1 (RI)**: Tests firing a transition in a simple network with one transition. The result expects the Petri Net to be in the same state after firing.
@@ -98,7 +98,7 @@ Tests under this category simulate the firing of transitions and observe token d
 - **testActivatePetri_9 (RDM)**: Simulates transitions with multiple output places. 
 - **testActivatePetri_10 (RDGM)**: Combines multiple inputs and outputs to validate a complex firing scenario.
 
-### Removal of different components of the Petri Net
+### Removal of different components of the Petri Net in the PetriNetRemovalTest class
 
 - **testRemoveTransition_0 (ST0)** : Validates that a transition can be removed from the Petri Net
  After the removal, the transition list size should be zero, and the network structure is updated accordingly.
@@ -110,12 +110,7 @@ Tests under this category simulate the firing of transitions and observe token d
 
 - **testRemoveArc (SA1)** : Ensures that a specific arc can be removed from the Petri Net while keeping its associated places and transitions intact.
 
-### Additional Tests for the specific incoming arc types
-
-- **testIncomingArcVideur (SAV)** : Validates the behavior of the IncomingArc_Videur class by removing all tokens from a place when the connected transition fires.
-- **testIncomingArcZero (SAZ)** : Tests the IncomingArc_Zero class to ensure that the transition fires only when the connected place has zero tokens.
-
-### Test des méthode d'améloriation
+### Tests for enhanced methods in the PetriNet class in the PetriNetActivationTest class
 
 - **testActivatePetri_11 (RDGM1)** : Tests the methods setPlaces, setTransitions, setArcs to add a list of these components to the PetriNet all at once, and setOutgoingArcs, setIncomingArcs to
     add Arcs to a transition all at once.
